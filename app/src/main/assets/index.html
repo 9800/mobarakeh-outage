@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#006a49">
+<title>خاموشی برق مبارکه</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+:root{
+  --bg:#f2f5f3; --card:rgba(255,255,255,.82); --text:#10201a; --muted:#5c6f66;
+  --primary:#006a49; --primary2:#009066; --on-primary:#ffffff;
+  --primary-soft:#d9f2e6; --danger:#d32f2f; --danger-soft:#ffe3de;
+  --border:#dbe5df; --radius:26px; --shadow:0 12px 32px rgba(16,32,26,.10);
+  --ring:0 0 0 4px rgba(0,144,102,.16); --field:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0d1210; --card:rgba(22,29,26,.80); --text:#e6efea; --muted:#93a69c;
+    --primary:#3ddc97; --primary2:#1fb87b; --on-primary:#04241a;
+    --primary-soft:#0d3a2c; --danger:#ff8a80; --danger-soft:#4a211d;
+    --border:#24312b; --shadow:0 12px 32px rgba(0,0,0,.45); --field:#101815;
+  }
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0; font-family:'Vazirmatn',system-ui,sans-serif; color:var(--text); min-height:100vh;
+  background:radial-gradient(900px 480px at 85% -10%, rgba(0,144,102,.14), transparent 60%),
+             radial-gradient(700px 420px at -10% 30%, rgba(0,106,73,.10), transparent 60%), var(--bg);}
+header{position:relative; overflow:hidden; color:var(--on-primary); padding:34px 20px 66px; border-radius:0 0 42px 42px; text-align:center;
+  background:linear-gradient(135deg,#00493a 0%,#006a49 45%,#009066 100%);}
+header::before,header::after{content:''; position:absolute; border-radius:50%; filter:blur(46px); opacity:.5}
+header::before{width:220px;height:220px; background:#3ddc97; top:-90px; right:-60px}
+header::after{width:180px;height:180px; background:#ffd54f; bottom:-70px; left:-40px; opacity:.25}
+header h1{margin:0; font-size:1.6rem; font-weight:900; position:relative; text-shadow:0 2px 12px rgba(0,0,0,.25)}
+header p{margin:8px 0 0; opacity:.9; font-size:.82rem; position:relative}
+main{max-width:760px; margin:-40px auto 24px; padding:0 14px; display:flex; flex-direction:column; gap:16px}
+.card{background:var(--card); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px;
+  animation:rise .5s ease both;}
+main>.card:nth-child(2){animation-delay:.06s} main>.card:nth-child(3){animation-delay:.12s} main>.card:nth-child(4){animation-delay:.18s}
+@keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+.card-title{display:flex; align-items:center; gap:8px; font-size:1rem; font-weight:800}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;vertical-align:middle;margin-left:6px}
+.dot.red{background:var(--danger);animation:pulseR 1.3s infinite}
+.dot.green{background:var(--primary2);animation:pulseG 1.3s infinite}
+@keyframes pulseR{0%{box-shadow:0 0 0 0 rgba(211,47,47,.45)}70%{box-shadow:0 0 0 9px rgba(211,47,47,0)}100%{box-shadow:0 0 0 0 rgba(211,47,47,0)}}
+@keyframes pulseG{0%{box-shadow:0 0 0 0 rgba(0,144,102,.45)}70%{box-shadow:0 0 0 9px rgba(0,144,102,0)}100%{box-shadow:0 0 0 0 rgba(0,144,102,0)}}
+label{font-size:.78rem; color:var(--muted); display:block; margin-bottom:8px}
+.row{display:flex; gap:8px; flex-wrap:wrap}
+input[type=text],select{flex:1; min-width:150px; border:1.5px solid var(--border); background:var(--field); color:var(--text); border-radius:18px; padding:13px 16px; font-family:inherit; font-size:.92rem; outline:none; transition:border .2s, box-shadow .2s}
+input[type=text]:focus,select:focus{border-color:var(--primary2); box-shadow:var(--ring)}
+button{border:none; background:linear-gradient(135deg,var(--primary2),var(--primary)); color:var(--on-primary); border-radius:18px; padding:13px 24px; font-family:inherit; font-size:.95rem; font-weight:800; cursor:pointer; box-shadow:0 8px 18px rgba(0,106,73,.30); transition:transform .15s, box-shadow .2s}
+button:active{transform:scale(.96)}
+button.ghost{background:transparent; color:var(--primary); border:1.5px solid var(--primary); padding:12px 18px; font-size:.85rem; box-shadow:none; border-radius:18px}
+.hint{font-size:.7rem; color:var(--muted); margin-top:8px}
+.warn{background:var(--danger-soft); color:var(--danger); border-radius:14px; padding:10px 14px; font-size:.74rem; margin-top:10px}
+.status{display:block; padding:13px 16px; border-radius:18px; font-weight:800; margin-top:12px}
+.status.on{background:var(--primary-soft); color:var(--primary)}
+.status.off{background:var(--danger-soft); color:var(--danger)}
+.countdown{font-size:.8rem; font-weight:400; opacity:.9; margin-top:5px}
+.big-time{font-size:1.55rem; font-weight:900; color:var(--primary); margin:8px 0 0}
+.chips{margin-top:8px}
+.chip{display:inline-block; background:var(--primary-soft); color:var(--primary); border-radius:999px; padding:4px 11px; font-size:.68rem; font-weight:700; margin:2px}
+.chip.more{background:transparent; border:1px dashed var(--muted); color:var(--muted)}
+table{width:100%; border-collapse:collapse; font-size:.83rem; margin-top:10px}
+td,th{padding:11px 8px; border-bottom:1px solid var(--border); text-align:right}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--primary-soft); border-radius:12px; font-weight:800; color:var(--primary)}
+.muted{color:var(--muted); font-size:.74rem}
+.err{background:var(--danger-soft); color:var(--danger); border-radius:16px; padding:12px 16px; font-size:.83rem; margin-top:12px; display:none}
+.spin{display:inline-block; width:14px; height:14px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-left:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+footer{text-align:center; padding:10px 0 34px; color:var(--muted); font-size:.7rem}
+#mapPrompt{display:none; margin-top:12px; background:var(--field); border:1.5px dashed var(--border); border-radius:18px; padding:14px}
+.badge{display:inline-block; background:var(--primary-soft); color:var(--primary); border-radius:999px; padding:4px 12px; font-size:.7rem; font-weight:800}
+.out-item{background:var(--danger-soft); border-radius:20px; padding:14px 16px; margin-top:12px}
+.out-item .timer{font-size:.78rem; color:var(--danger); font-weight:800}
+.out-item details summary{cursor:pointer; font-size:.72rem; color:var(--muted); margin-top:6px}
+.out-item details ul{margin:8px 0 0; padding-right:18px; font-size:.75rem; line-height:2}
+#results{display:grid; gap:16px; grid-template-columns:1fr}
+@media (min-width:720px){ #results{grid-template-columns:1fr 1fr} }
+@media (max-width:420px){ header{padding:26px 14px 56px} header h1{font-size:1.3rem} .card{padding:16px} button{padding:12px 18px} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ خاموشی برق مبارکه</h1>
+  <p>کاری از نیکان رایان قهنویه (نریمان)</p>
+</header>
+
+<main>
+  <div class="card">
+    <div class="card-title"><span class="dot red"></span> الان برق کجا قطعه؟</div>
+    <div id="nowOut"><div class="status on">⏳ در انتظار دریافت جدول…</div></div>
+  </div>
+
+  <div class="card">
+    <label for="q">نام محله، خیابان، مکان یا شماره گروه</label>
+    <div class="row">
+      <input type="text" id="q" list="places" placeholder="مثلاً: ولیعصر، دانشگاه آزاد، کرکوند یا ۱۲" autocomplete="off">
+      <button id="go">استعلام</button>
+      <button id="refresh" class="ghost">به‌روزرسانی</button>
+    </div>
+    <div class="muted" id="lastUpdate" style="margin-top:10px"></div>
+    <datalist id="places"></datalist>
+    <div class="hint">جستجوی محله کاملاً آفلاین است؛ فقط جدول ساعت‌ها از کانال دریافت می‌شود. <span class="badge" id="dbInfo"></span></div>
+    <div class="err" id="err"></div>
+    <div id="mapPrompt">
+      <label>این نام در جدول یافت نشد؛ شمارهٔ گروه آن را وارد کنید تا برای همیشه ذخیره شود:</label>
+      <div class="row"><input type="text" id="grp" placeholder="مثلاً: ۱۲"><button id="saveMap">ذخیره</button></div>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+  <div class="card">
+    <div class="card-title">📋 جدول خاموشی روز اعلامی</div>
+    <div class="row" style="margin-top:12px">
+      <select id="daySel"></select>
+    </div>
+    <div id="dayInfo" class="hint"></div>
+    <div id="dayWarn" class="warn" style="display:none"></div>
+    <table id="table"><tbody></tbody></table>
+  </div>
+</main>
+
+<footer>نسخهٔ وب • پایگاه دادهٔ محله‌ها طبق جدول رسمی کانال (اصلاح‌شده) • NikaNRaYaN</footer>
+
+<script>
+'use strict';
+/* ============ پایگاه دادهٔ محله‌ها (نسخهٔ اصلاحی تأییدشده) ============ */
+const GROUP_DATA = {
+1:"مبارکه بلوار خلیج فارس ضلع جنوبی – بلوار معلم – میدان سردار شهید سلیمانی – خیابان سعادت – خیابان خرمشهر – خیابان ولیعصر – بلوار شریعتی – اداره آموزش و پرورش – شورای شهر – خیابان شهید رجایی – خیابان شهدا – خیابان امام خمینی شمالی – خیابان بسیج شمالی – خیابان سلمان – خیابان بهشتی – بلوار نیکبخت تا پل عابر پیاده – بلوار شهید یزدان – خیابان مشتاق – خیابان ۱۷ شهریور – انشعاب کشاورزی جنب پل رودخانه‌شور – بلوار ولایت – خیابان شهید کریمیان – درمانگاه سینا – خیابان شهدای جعفرزاده",
+2:"مبارکه: ضلع شمال بلوار شریعتی – بلوار ۱۵ خرداد – خیابان باهنر – خیابان شهید مصطفی خمینی – صفاییه محله ۷ و ۸ – بلوار محتشم – بلوار الزهرا – سازمان تامین اجتماعی – دادگستری – تربیت بدنی و استخر ابوذر – مجموعه سایت اداری شهرستان - اداره آب – اداره برق – اداره ثبت احوال – اداره ثبت اسناد – اداره مسکن و شهرسازی – اداره کار و امور اجتماعی – کمیته امداد – فرمانداری – دادگستری – اداره کار – بنیاد مسکن – منابع طبیعی – بانک ملی شعبه خلیج فارس – چاه آب فلمن – خیابان آیت‌الله طالقانی – محله سرارود – اداره پست – کوی سجاد",
+3:"بیمارستان محمد رسول‌الله",
+4:"مبارکه: کرکوند – حسن آباد بیدگان – خیرآباد – سیاهبوم – سورچه پایین – سورچه بالا – جاده فولاد درب زرین شهر – شرکت ایثارگران – راه آهن حسن آباد",
+5:"مبارکه: صفاییه محله ۴ و  – بلوار پرستار – کلانتری ۱۱ – دهنو – درچه – وینیچه - دیزیچه خیابان عمان سامانی – قسمتی از محله ۸ صفاییه – خیابان انتظام – اداره آبفا – دانشگاه آزاد اسلامی مبارکه – مسکن مهر شهر دیزیچه – انشعاب‌های برق دهنو – بلوار شهید ربیعی ضلع شمال – ویلاهای شهرداری پارک سرارود",
+7:"مبارکه: صفاییه محله ۱ – مبارکه: صفاییه محله ۲ – مبارکه: صفاییه محله ۴ – مبارکه: صفاییه محله ۹ – مبارکه: صفاییه محله ۱۰ – روستای بداغ آباد – محله آسیاب آباد",
+8:"مبارکه: خیابان سلمان از چهارراه بازار تا بلوار فتح المبین – خیابان فردوسی – خیابان رسالت – بلوار فتح المبین – خیابان بسیج جنوبی – خیابان حافظ شرقی و غربی – خیابان امام خمینی جنوبی – خیابان مطهری – خیابان اباذر غفاری – خیابان مالک اشتر – خیابان ۲۲ بهمن – محله نصیرآباد فاز ۱ - محله نصیرآباد فاز ۲ - محله نصیرآباد فاز ۳ – اداره سازمان فنی و حرفه‌ای – بلوار جانبازان – خیابان بوعلی – خیابان مبارزان – هلال احمر مبارکه – اداره گاز – استخر اسپینر – جایگاه گاز CNG – خانه معلم مبارکه",
+9:"انشعاب نوروزی – قلعه حکیم – انشعاب صفیری – انشعاب کدخدایی – پرورش ماهی هیرمن پور – جنب جاده فولاد درب مبارکه – انشعاب کشاورزی جنب شرکت توکا – انشعاب کشاورزی چغاجوش – ابراهیم آباد – هیرمندپور – قلعه حکیم – کشتارگاه هامون – پرورش ماهی رئیسی",
+10:"مبارکه: انشعاب کشاورزی سرخال – محمدآباد قهنویه – محله قهنویه – محله صادقیه – پمپ بنزین ایرانپور – خیابان شهید ضیایی‌ها – خیابان سعدی",
+11:"کارگاهی خیام، دانشگاه آزاد، پایانه باربری – بلوار خیام – شرکت تامکو – کشتارگاه صنعتی – پارک شهدای زینلی – منطقه کارگاهی امیرکبیر – جاده لاله‌های آزادی – پارک گل نرگس – شرکت پگاه – پارکینگ نیروی انتظامی – شرکت بازیافت – پایانه باربری شهرستان مبارکه",
+12:"مبارکه: منطقه کارگاهی جنب میدان امیرکبیر",
+13:"خولنجان – لنج – جاده سد نکوآباد – محله نکوآباد – حسن آباد قلعه بزی – مزرعچه – شرکت سخت بتن – پمپ بنزین علی‌ابن‌موسی‌الرضا – تصفیه خانه فاضلاب",
+14:"زیباشهر بلوار نسوز – آتش نشانی زیباشهر – شهرداری زیباشهر – بلوار امام خمینی زیباشهر – بخشداری گرکن جنوبی – قسمتی از خولنجان – آدرگان – روستای احمدآباد – روستای فخرآباد – روستای جوشان – روستای هراتمه – روستای زودان – انشعاب ساتان – اراضی کشاورزی سمت راست جاده مبارکه اصفهان از مبارکه تا قبل از جاده صنایع هفتم تیر – پادگان امام علی (ع) – خیابان شهدای محراب",
+15:"انشعاب اباذری – روستای باغملک و مناطق کشاورزی – روستای کوشکیچه و مناطق کشاورزی – روستای قرق احمدآباد و مناطق کشاورزی – روستای بارچان دستگرد و مناطق کشاورزی – روستای دستگرد مهرآوران و مناطق کشاورزی",
+16:"شرکت نسوز – روستای اراضی – دامداری شاه علایی – روستای اکبرآباد – روستای میرآباد و بروزاد",
+17:"شهر دیزیچه – محله سجادیه – محله محمدیه – محله اسماعیل ترخان – تالار سعیدی – پایانه مسافربری مبارکه – اداره جهاد کشاورزی – جایگاه CNG",
+18:"نهچیر – جاده مبارکه طالخونچه – شهر طالخونچه – انشعاب صنعتی فولاد علی – معدن شن سپاهان – جاده مبارکه بروجن",
+19:"لرد طالخونچه و اراضی کشاورزی سینه کشی طالخونچه",
+20:"جاده مجلسی بروجن – شرکت کیان اکسیر تجارت – بلوار شهید سردار سلیمانی – گلخانه تولید بذر دانشگاه آزاد – مجلسی: محله گلستان – خیابان‌های سرور – بنفشه بازارچه گلستان – آفتاب – خیابان کیوان – بلوار ولایت – آتش نشانی – کلانتری ۱۵ – پارکینگ شهرداری – روستای قلعه سفید – روستای لاو – روستای آبرو – روستای حوض ماهی – روستای قمیشلو – منطقه کشاورزی کرد بچه – گلخانه محسنی",
+21:"شهر مجلسی: مسکن مهر – دانشگاه آزاد – بلوار دانشجو،سهیل – میدان شورا – بلوار فجر – بلوار شهید آبروی،محله سپهر – محله دانش – محله هنر – محله فرهنگ – بلوار ارم – میدان کوثر – شهرداری مجلسی – شرکت عمران – مسجد جامع – بلوار معلم – محله ناجا – محله بنیاد مسکن – بلوار کوشش – پارک ارم",
+22:"شهر دهسرخ – جاده شرکت کشت و دام فضیل – انشعاب ۵۴ – وزیرآباد",
+23:"کارخانه چینی زرین – زندان اسدآباد – قسمتی از روستای جوهرستان",
+27:"شهرک صنعتی دهسرخ – اراضی کشاورزی سمت راست جاده مبارکه اصفهان از دهسرخ تا ویلادره – ویلادره – روبروی شهرک صنعتی مبارکه – انشعاب هفتم تیر – معدن شن فجر – پلیس راه اصفهان شیراز – منطقه دشت سبز – پمپ بنزین رز آبی",
+30:"منطقه کشاورزی قرق خمسه – روستای اسدآباد - روستای جوهرستان - روستای بروزاد - روستای میرآباد",
+31:"سه راهی پلی اکریل – اراضی کشاورزی پشت دهسرخ – انشعاب ایستگاه مخابراتی – منطقه کشاورزی پشت آبرسانی – انشعاب امید فردا و عالیفر"
+};
+/* ============ تنظیمات ============ */
+const SOURCE_URL = 'https://eitaa.com/epedcmobarake';
+const PROXIES = [
+  {url:u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u)},
+  {url:u=>'https://corsproxy.io/?url='+encodeURIComponent(u)},
+  {url:u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u)},
+  {url:u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u), json:true}
+];
+/* ============ ابزارها (ارقام برنامه‌نویسی‌شده — غیرقابل خرابی) ============ */
+const $ = id => document.getElementById(id);
+const FA = Array.from({length:10},(_,i)=>String.fromCharCode(0x06F0+i)).join('');
+const AR = Array.from({length:10},(_,i)=>String.fromCharCode(0x0660+i)).join('');
+const toEn = s => String(s).replace(/[\u06F0-\u06F9\u0660-\u0669]/g, d => FA.includes(d) ? FA.indexOf(d) : AR.indexOf(d));
+const toFa = n => String(n).replace(/\d/g, d => FA[+d]);
+const ON = '<span class="dot green"></span> برق وصل است';
+const OFF = '<span class="dot red"></span> هم اکنون برق این منطقه قطع است';
+function normMatch(s){
+  return toEn(String(s))
+    .replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/‌/g,' ')
+    .replace(/انشعاب/g,'شعاب').replace(/اشعاب/g,'شعاب')
+    .replace(/ثناییه/g,'صفاییه')
+    .replace(/فهنویه/g,'قهنویه')
+    .replace(/[–\-،,:()_\/]/g,' ')
+    .replace(/(^|\s)(خیابان|خ|بلوار|جاده|میدان|کوی)(?=\s)/g,' ')
+    .replace(/\s+/g,' ').trim();
+}
+/* ============ تقویم ============ */
+function jalaliToGregorian(jy, jm, jd){
+  jy += 1595;
+  let days = -355668 + (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+  let gy = 400 * Math.floor(days / 146097); days %= 146097;
+  if (days > 36524) { gy += 100 * Math.floor(--days / 36524); days %= 36524; if (days >= 365) days++; }
+  gy += 4 * Math.floor(days / 1461); days %= 1461;
+  if (days > 365) { gy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
+  let gd = days + 1;
+  const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let gm;
+  for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
+  return {gy, gm, gd};
+}
+const MONTHS=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+function parseJalaliDate(line){
+  const n = toEn(line);
+  const num = n.match(/(1[34]\d{2})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
+  if(num) return {jy:+num[1], jm:+num[2], jd:+num[3]};
+  const alt = MONTHS.slice().sort((a,b)=>b.length-a.length).join('|');
+  const dm = n.match(new RegExp('(\\d{1,2})\\s*(?:'+alt+')'));
+  const ym = n.match(/(1[34]\d{2})/);
+  const sorted = MONTHS.slice().sort((a,b)=>b.length-a.length);
+  let mn = 0;
+  for(const name of sorted){ if(n.includes(name)){ mn = MONTHS.indexOf(name)+1; break; } }
+  if(!dm || !mn || !ym) return null;
+  return {jy:+ym[1], jm:mn, jd:+dm[1]};
+}
+function faDateStr(d){
+  try{ return new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(d); }
+  catch(e){ return ''; }
+}
+function relLabel(diff){
+  if(diff===null) return 'تاریخ نامشخص';
+  if(diff===0) return 'امروز';
+  if(diff===1) return 'فردا';
+  if(diff>1)  return toFa(diff)+' روز دیگر';
+  return 'مربوط به '+toFa(Math.abs(diff))+' روز قبل';
+}
+/* ============ ایندکس جستجو ============ */
+const INDEX = [];
+for(const [g,s] of Object.entries(GROUP_DATA)){
+  s.split(/[–-]/).forEach(part=>{ part=part.trim(); if(part) INDEX.push({group:+g, item:part, n:normMatch(part)}); });
+}
+$('dbInfo').textContent = toFa(Object.keys(GROUP_DATA).length)+' گروه / '+toFa(INDEX.length)+' نشانی';
+[...new Set(INDEX.map(e=>e.item))].forEach(t=> $('places').insertAdjacentHTML('beforeend','<option value="'+t+'">'));
+
+let SCHEDULE = null;
+let FETCH_STATE = 'loading';
+let autoRetried = false;
+
+function searchGroups(q){
+  const nq = normMatch(q);
+  if(!nq) return [];
+  if(/^\d+$/.test(nq)) return [{group:parseInt(nq,10), matched:['شماره گروه']}];
+  const hits=[];
+  for(const e of INDEX){
+    if(e.n.includes(nq) || (e.n.length<=nq.length && nq.includes(e.n))){
+      let h=hits.find(x=>x.group===e.group);
+      if(!h){ h={group:e.group, matched:[]}; hits.push(h); }
+      if(!h.matched.includes(e.item)) h.matched.push(e.item);
+    }
+  }
+  try{
+    const map = JSON.parse(localStorage.getItem('mob_map')||'{}');
+    for(const [name,g] of Object.entries(map)){
+      if(normMatch(name).includes(nq)){
+        let h=hits.find(x=>x.group===+g);
+        if(!h){ h={group:+g, matched:[]}; hits.push(h); }
+        if(!h.matched.includes(name)) h.matched.push(name);
+      }
+    }
+  }catch(e){}
+  return hits.sort((a,b)=>a.group-b.group);
+}
+/* ============ دریافت و تجزیه جدول ============ */
+async function fetchPage(){
+  for(const p of PROXIES){
+    try{
+      const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),15000);
+      const r=await fetch(p.url(SOURCE_URL),{signal:ctl.signal,cache:'no-store'});
+      clearTimeout(t);
+      if(!r.ok) continue;
+      let txt='';
+      if(p.json){ const j=await r.json(); txt=j.contents||''; } else { txt=await r.text(); }
+      if(txt && txt.length>300) return txt;
+    }catch(e){}
+  }
+  throw new Error('network');
+}
+function parseSchedule(html){
+  const clean=html.replace(/<br\s*\/?>/gi,'\n');
+  const doc=new DOMParser().parseFromString(clean,'text/html');
+  doc.querySelectorAll('script,style').forEach(n=>n.remove());
+  const raw=doc.body?doc.body.textContent:clean;
+  const norm=toEn(raw);
+
+  const dateHits=[...norm.matchAll(/مورخ\s*([^\n✅🔴]{3,40})/g)].map(m=>({idx:m.index, line:m[1].trim()}));
+  const entries=[];
+  const re=/ساعت\s*(\d{1,2})\s*تا\s*(\d{1,2})\s*[:：]?\s*گروه\s*([\d][\d\s\-،,]*)/g;
+  for(const m of norm.matchAll(re)){
+    const groups=m[3].trim().split(/[-،,]/).map(x=>parseInt(x.trim(),10)).filter(n=>!isNaN(n));
+    const d=dateHits.slice().reverse().find(x=>x.idx<m.index);
+    entries.push({startH:+m[1], endH:+m[2], groups, dateLine:d?d.line:null});
+  }
+  if(!entries.length) return null;
+
+  const now=new Date();
+  const today=new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const map=new Map();
+  entries.forEach(e=>{
+    const k=e.dateLine||'__none__';
+    if(!map.has(k)) map.set(k,{dateLine:k==='__none__'?null:k, entries:[]});
+    map.get(k).entries.push(e);
+  });
+  const blocks=[...map.values()].map(b=>{
+    const j=b.dateLine?parseJalaliDate(b.dateLine):null;
+    let baseDate=null, diffDays=null;
+    if(j){
+      const g=jalaliToGregorian(j.jy, j.jm, j.jd);
+      baseDate=new Date(g.gy, g.gm-1, g.gd);
+      diffDays=Math.round((baseDate-today)/86400000);
+    }
+    return Object.assign({}, b, {jalali:j, baseDate, diffDays});
+  });
+
+  const sel = blocks.find(b=>b.diffDays===0)
+    || blocks.filter(b=>b.diffDays!==null&&b.diffDays>0).sort((a,b)=>a.diffDays-b.diffDays)[0]
+    || blocks.filter(b=>b.diffDays!==null).sort((a,b)=>b.diffDays-a.diffDays)[0]
+    || blocks[0];
+
+  return {blocks, selected:sel, entries:sel.entries, baseDate:sel.baseDate, diffDays:sel.diffDays, dateRaw:sel.dateLine};
+}
+/* ============ زمان‌بندی و شمارش ============ */
+function entryBounds(e, base){
+  const b = base || new Date();
+  const s=new Date(b); s.setHours(e.startH,0,0,0);
+  const en=new Date(b);
+  if(e.endH===24){en.setDate(en.getDate()+1);en.setHours(0,0,0,0);} else en.setHours(e.endH,0,0,0);
+  return {s,e:en};
+}
+function fmtDiff(ms){
+  let t=Math.max(0,Math.floor(ms/1000));
+  const d=Math.floor(t/86400); t%=86400;
+  const h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60;
+  const parts=[];
+  if(d) parts.push(toFa(d)+' روز');
+  if(h) parts.push(toFa(h)+' ساعت');
+  if(m) parts.push(toFa(m)+' دقیقه');
+  if(!d) parts.push(toFa(s)+' ثانیه');
+  return parts.join(' و ');
+}
+/* ============ بخش «الان برق کجا قطعه؟» ============ */
+let nowOutKey='__init__';
+function tickNowOut(){
+  const box=$('nowOut');
+  if(!SCHEDULE){
+    if(FETCH_STATE==='failed'){
+      box.innerHTML='<div class="status off">⚠️ اتصال به کانال برقرار نشد.<div class="countdown">جستجوی محله همچنان فعال است؛ برای جدول ساعت‌ها دکمهٔ «به‌روزرسانی» را بزنید.</div></div>';
+    } else {
+      box.innerHTML='<div class="status on">⏳ در حال دریافت جدول از کانال…</div>';
+    }
+    nowOutKey='__init__';
+    return;
+  }
+  if(SCHEDULE.diffDays!==0){
+    box.innerHTML='<div class="status on">'+ON+'<div class="countdown">طبق برنامهٔ اعلامی ('+relLabel(SCHEDULE.diffDays)+') خاموشی فعال نداریم؛ برنامهٔ امروز هنوز در کانال منتشر نشده است.</div></div>';
+    nowOutKey='__init__';
+    return;
+  }
+  const t=Date.now();
+  const out=[]; let next=null;
+  for(const e of SCHEDULE.entries){
+    const b=entryBounds(e, SCHEDULE.baseDate);
+    if(t>=b.s.getTime() && t<b.e.getTime()) out.push({e, endMs:b.e.getTime()});
+    else if(b.s.getTime()>t && (!next || b.s.getTime()<next.sMs)) next={e, sMs:b.s.getTime()};
+  }
+  const key=out.map(o=>o.e.startH+'-'+o.e.groups.join('.')).join('|') || '__none__';
+  if(key!==nowOutKey){
+    nowOutKey=key;
+    if(!out.length){
+      box.innerHTML='<div class="status on">'+ON+' — در حال حاضر طبق برنامه، برق همه‌جا وصل است.'+
+        (next?('<div class="countdown">خاموشی بعدی: ساعت '+toFa(next.e.startH)+' تا '+toFa(next.e.endH)+' — گروه '+toFa(next.e.groups.join('، '))+'</div>'):'')+
+        '</div>';
+    } else {
+      box.innerHTML=out.map(o=>
+        '<div class="out-item">'+
+          '<div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap">'+
+            '<strong style="color:var(--danger)"><span class="dot red"></span> ساعت '+toFa(o.e.startH)+' تا '+toFa(o.e.endH)+'</strong>'+
+            '<span class="timer" data-end="'+o.endMs+'">…</span>'+
+          '</div>'+
+          '<div class="muted" style="margin-top:6px">گروه‌های '+toFa(o.e.groups.join('، '))+'</div>'+
+          '<details><summary>مشاهدهٔ مناطق قطع</summary><ul>'+
+            o.e.groups.map(g=>'<li><b>گروه '+toFa(g)+':</b> '+(GROUP_DATA[g]||'—')+'</li>').join('')+
+          '</ul></details>'+
+        '</div>').join('');
+    }
+  }
+  box.querySelectorAll('.timer').forEach(el=>{
+    el.textContent='⏳ تا وصل برق: '+fmtDiff((+el.dataset.end)-Date.now());
+  });
+}
+/* ============ وضعیت کارت‌های جستجو ============ */
+function tick(){
+  tickNowOut();
+  document.querySelectorAll('.res').forEach(card=>{
+    const g=+card.dataset.group;
+    const st=card.querySelector('.status');
+    if(!SCHEDULE){st.className='status on';st.innerHTML='⏳ در انتظار دریافت جدول ساعت‌ها…';return;}
+    const entry=SCHEDULE.entries.find(e=>e.groups.includes(g));
+    if(!entry){st.className='status on';st.innerHTML=ON+'<div class="countdown">خاموشی برنامه‌ریزی‌شده‌ای برای این گروه اعلام نشده</div>';return;}
+    if(SCHEDULE.diffDays===null){st.className='status on';st.innerHTML=ON+'<div class="countdown">تاریخ جدول اعلامی نامشخص است</div>';return;}
+    if(SCHEDULE.diffDays<0){st.className='status on';st.innerHTML=ON+'<div class="countdown">برنامهٔ جدیدتر منتشر نشده؛ این جدول '+relLabel(SCHEDULE.diffDays)+' است</div>';return;}
+    const b=entryBounds(entry, SCHEDULE.baseDate); const now=Date.now();
+    if(now<b.s.getTime()){st.className='status on';st.innerHTML=ON+'<div class="countdown">⏳ تا شروع خاموشی ('+relLabel(SCHEDULE.diffDays)+'): '+fmtDiff(b.s.getTime()-now)+'</div>';}
+    else if(now<b.e.getTime()){st.className='status off';st.innerHTML=OFF+'<div class="countdown">⏳ تا وصل برق: '+fmtDiff(b.e.getTime()-now)+'</div>';}
+    else{st.className='status on';st.innerHTML=ON+'<div class="countdown">خاموشی این روز پایان یافته است</div>';}
+  });
+}
+/* ============ نمایش ============ */
+function renderDayUI(){
+  const sel=$('daySel'); sel.innerHTML='';
+  SCHEDULE.blocks.forEach((b,i)=>{
+    const label=(b.baseDate?faDateStr(b.baseDate):('بدون تاریخ'))+' — '+relLabel(b.diffDays);
+    sel.insertAdjacentHTML('beforeend','<option value="'+i+'"'+(b===SCHEDULE.selected?' selected':'')+'>'+label+'</option>');
+  });
+  $('dayInfo').textContent='📅 روز اعلامی: '+(SCHEDULE.selected.baseDate?faDateStr(SCHEDULE.selected.baseDate):'نامشخص')+' ('+relLabel(SCHEDULE.diffDays)+')';
+  const warn=$('dayWarn');
+  const hasToday=SCHEDULE.blocks.some(b=>b.diffDays===0);
+  if(!hasToday){
+    warn.style.display='block';
+    warn.textContent='⚠️ برنامهٔ امروز هنوز در کانال منتشر نشده است؛ '+(SCHEDULE.diffDays>0?'نزدیک‌ترین جدول اعلامی آینده نمایش داده می‌شود.':'آخرین جدول منتشرشده نمایش داده می‌شود.');
+  } else warn.style.display='none';
+  nowOutKey='__init__';
+}
+function renderTable(hl){
+  const tb=$('table').querySelector('tbody'); tb.innerHTML='';
+  if(!SCHEDULE){tb.innerHTML='<tr><td class="muted">هنوز جدولی دریافت نشده است</td></tr>';return;}
+  SCHEDULE.entries.forEach(e=>{
+    const tr=document.createElement('tr');
+    if(hl&&e.groups.includes(hl))tr.className='hl';
+    tr.innerHTML='<td>ساعت '+toFa(e.startH)+' تا '+toFa(e.endH)+'</td><td class="muted">گروه '+toFa(e.groups.join('، '))+'</td>';
+    tb.appendChild(tr);
+  });
+}
+function showErr(m){const el=$('err');el.style.display='block';el.textContent=m;}
+function applyQuery(q){
+  const box=$('results'); box.innerHTML='';
+  $('mapPrompt').style.display='none'; $('err').style.display='none';
+  q=(q||'').trim();
+  if(!q){renderTable(null);return;}
+  const hits=searchGroups(q);
+  if(!hits.length){
+    showErr('موردی یافت نشد؛ نام دیگری امتحان کنید یا شمارهٔ گروه را وارد کنید.');
+    if(!/^\d+$/.test(toEn(q))){$('mapPrompt').style.display='block';$('mapPrompt').dataset.name=q;}
+    renderTable(null); return;
+  }
+  hits.forEach(h=>{
+    const entry=SCHEDULE?SCHEDULE.entries.find(e=>e.groups.includes(h.group)):null;
+    const shown=h.matched.slice(0,6);
+    const chips=shown.map(m=>'<span class="chip">'+m+'</span>').join('');
+    const more=h.matched.length>6?'<span class="chip more">+'+toFa(h.matched.length-6)+' مورد دیگر</span>':'';
+    box.insertAdjacentHTML('beforeend',
+      '<div class="card res" data-group="'+h.group+'">'+
+      '<div class="row" style="justify-content:space-between;align-items:center">'+
+      '<strong style="font-size:1rem">گروه '+toFa(h.group)+'</strong></div>'+
+      '<div class="chips">'+chips+more+'</div>'+
+      '<div class="big-time">'+(entry?('ساعت '+toFa(entry.startH)+' تا '+toFa(entry.endH)):'—')+'</div>'+
+      '<div class="status on">…</div></div>');
+  });
+  renderTable(hits[0].group);
+  tick();
+}
+/* ============ به‌روزرسانی ============ */
+function stamp(fromCache){
+  const c=localStorage.getItem('mob_cache'); if(!c)return;
+  const d=new Date(JSON.parse(c).t);
+  $('lastUpdate').textContent='آخرین به‌روزرسانی: '+toFa(d.getHours())+':'+toFa(String(d.getMinutes()).padStart(2,'0'))+(fromCache?' (حافظهٔ محلی)':'');
+}
+async function refresh(manual){
+  const btn=$('refresh');
+  FETCH_STATE='loading';
+  btn.innerHTML=manual?'<span class="spin"></span> …':'به‌روزرسانی';
+  try{
+    const html=await fetchPage();
+    const sch=parseSchedule(html);
+    if(!sch) throw new Error('parse');
+    SCHEDULE=sch;
+    FETCH_STATE='ok';
+    autoRetried=false;
+    localStorage.setItem('mob_cache',JSON.stringify({t:Date.now(),html}));
+    $('err').style.display='none'; stamp(false);
+    renderDayUI(); applyQuery($('q').value); tickNowOut();
+  }catch(e){
+    const cache=localStorage.getItem('mob_cache');
+    if(cache){
+      try{SCHEDULE=parseSchedule(JSON.parse(cache).html);FETCH_STATE='ok';stamp(true);renderDayUI();applyQuery($('q').value);}catch(e2){FETCH_STATE='failed';}
+    } else FETCH_STATE='failed';
+    if(FETCH_STATE==='failed'){
+      showErr('⚠️ اتصال به ایتا برقرار نشد؛ کمی بعد دوباره تلاش کنید. جستجوی محله همچنان فعال است.');
+      if(!autoRetried){ autoRetried=true; setTimeout(()=>refresh(false), 20000); }
+    }
+    tickNowOut();
+  }
+  btn.textContent='به‌روزرسانی';
+}
+/* ============ رویدادها و شروع ============ */
+$('go').addEventListener('click',()=>{localStorage.setItem('mob_q',$('q').value);applyQuery($('q').value);});
+$('q').addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click();});
+$('refresh').addEventListener('click',()=>refresh(true));
+$('daySel').addEventListener('change',e=>{
+  if(!SCHEDULE) return;
+  const b=SCHEDULE.blocks[+e.target.value];
+  SCHEDULE.selected=b; SCHEDULE.entries=b.entries; SCHEDULE.baseDate=b.baseDate; SCHEDULE.diffDays=b.diffDays; SCHEDULE.dateRaw=b.dateLine;
+  renderDayUI(); applyQuery($('q').value); tickNowOut();
+});
+$('saveMap').addEventListener('click',()=>{
+  const g=parseInt(toEn($('grp').value),10); const name=$('mapPrompt').dataset.name;
+  if(isNaN(g)||!name)return;
+  const map=JSON.parse(localStorage.getItem('mob_map')||'{}'); map[name]=g;
+  localStorage.setItem('mob_map',JSON.stringify(map));
+  $('mapPrompt').style.display='none'; $('grp').value='';
+  applyQuery(name);
+});
+(function init(){
+  const c=localStorage.getItem('mob_cache');
+  if(c){try{SCHEDULE=parseSchedule(JSON.parse(c).html);stamp(true);}catch(e){}}
+  const q=localStorage.getItem('mob_q')||'';
+  $('q').value=q;
+  if(SCHEDULE) renderDayUI();
+  applyQuery(q);
+  tickNowOut();
+  setInterval(tick,1000);
+  refresh(false);
+})();
+</script>
+</body>
+</html>
