@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-    <!-- ✅ مجوز نمایش تمام‌صفحه روی صفحهٔ قفل (مثل تماس ورودی) -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
@@ -51,6 +50,19 @@
             android:foregroundServiceType="dataSync" />
 
         <receiver android:name=".AlarmReceiver" android:exported="false" />
+
+        <!-- ✅ ویجت صفحهٔ خانه -->
+        <receiver
+            android:name=".OutageWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.nikanrayan.mobarakeh.WIDGET_REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/outage_widget_info" />
+        </receiver>
 
     </application>
 </manifest>
