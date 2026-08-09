@@ -26,6 +26,7 @@ import android.widget.TextView;
 public class ReminderActivity extends Activity {
     private MediaPlayer mediaPlayer;
     private Ringtone fallbackRingtone;
+    private Vibrator vibrator;
     private Handler handler = new Handler();
     private Runnable vibrateRunnable;
     private boolean isAlertActive = true;
@@ -34,7 +35,6 @@ public class ReminderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ نمایش روی صفحهٔ قفل + روشن کردن + باز بودن قفل
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -47,6 +47,8 @@ public class ReminderActivity extends Activity {
             KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             if (km != null) km.requestDismissKeyguard(this, null);
         }
+
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         String title = getIntent().getStringExtra("title");
         String body = getIntent().getStringExtra("body");
@@ -123,28 +125,31 @@ public class ReminderActivity extends Activity {
 
     private void stopAlert() {
         isAlertActive = false;
-        handler.removeCallbacks(vibrateRunnable);
+        handler.removeCallbacksAndMessages(null);
+        // ✅ توقف فوری ویبرهٔ در حال پخش
+        try { if (vibrator != null) vibrator.cancel(); } catch (Exception ignored) {}
         try { if (mediaPlayer != null) { mediaPlayer.stop(); mediaPlayer.release(); mediaPlayer = null; } } catch (Exception ignored) {}
         try { if (fallbackRingtone != null) { fallbackRingtone.stop(); fallbackRingtone = null; } } catch (Exception ignored) {}
     }
 
     private void vibrateStrong() {
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (vibrator == null) return;
         long[] pattern = {0, 500, 200, 500, 200, 500};
-        if (Build.VERSION.SDK_INT >= 26) vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
-        else vibrator.vibrate(pattern, 0);
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1)); // ✅ بدون تکرار بی‌نهایت
+        } else {
+            vibrator.vibrate(pattern, -1);
+        }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         stopAlert();
+        super.onDestroy();
     }
 
-    // ✅ فقط دکمهٔ «متوجه شدم» می‌تواند آلارم را ببندد
     @Override
     public void onBackPressed() {
-        // عمداً خالی — با Back بسته نمی‌شود
+        // فقط دکمهٔ «متوجه شدم» آلارم را می‌بندد
     }
 }
