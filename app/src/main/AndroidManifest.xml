@@ -13,8 +13,15 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     
-    <!-- مجوز نمایش روی برنامه‌های دیگر (برای صفحه آلارم) -->
+    <!-- مجوز نمایش روی برنامه‌های دیگر -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    
+    <!-- ✅ مجوز حیاتی برای نادیده گرفتن بهینه‌سازی باتری (شیائومی) -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    
+    <!-- مجوز اجرای سرویس در پیش‌زمینه -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <application
         android:allowBackup="true"
@@ -34,7 +41,6 @@
             </intent-filter>
         </activity>
 
-        <!-- فعالیت جدید برای نمایش آلارم -->
         <activity
             android:name=".ReminderActivity"
             android:exported="false"
@@ -43,6 +49,13 @@
             android:turnScreenOn="true"
             android:excludeFromRecents="true"
             android:taskAffinity="" />
+
+        <!-- ✅ ثبت سرویس پایش جدید -->
+        <service
+            android:name=".MonitoringService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <receiver android:name=".AlarmReceiver" android:exported="false" />
 
