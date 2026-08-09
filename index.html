@@ -10,14 +10,13 @@
 <meta name="keywords" content="خاموشی برق مبارکه, قطع برق مبارکه, برنامه خاموشی برق, دانلود برنامه خاموشی, زمانبندی قطع برق, برق مبارکه">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#f5f7fb">
-<!-- ⚠️ عبارت‌های 9800 و mobarakeh-outage را با نام کاربری و اسم مخزن خودت جایگزین کن -->
-<link rel="canonical" href="https://9800.github.io/mobarakeh-outage/">
+<link rel="canonical" href="#" id="canonicalLink">
 
 <!-- ===== شبکه‌های اجتماعی ===== -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="دانلود برنامه خاموشی برق مبارکه">
 <meta property="og:description" content="اپلیکیشن اندرویدی زمان‌بندی قطع برق و اطلاعیه‌های خاموشی شهرستان مبارکه">
-<meta property="og:url" content="https://9800.github.io/mobarakeh-outage/">
+<meta property="og:url" content="#" id="ogUrl">
 <meta property="og:locale" content="fa_IR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="دانلود برنامه خاموشی برق مبارکه">
@@ -31,7 +30,6 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "برنامه خاموشی برق مبارکه",
-  "url": "https://9800.github.io/mobarakeh-outage/",
   "description": "اپلیکیشن اندرویدی زمان‌بندی قطع برق و اطلاعیه‌های خاموشی شهرستان مبارکه",
   "inLanguage": "fa"
 }
@@ -65,7 +63,7 @@
 }
 </script>
 
-<!-- تم قبل از رندر صفحه اعمال می‌شود (پیش‌فرض: روشن) -->
+<!-- تم قبل از رندر (پیش‌فرض: روشن) -->
 <script>
 (function(){
   var t = localStorage.getItem('theme') || 'light';
@@ -73,7 +71,6 @@
 })();
 </script>
 
-<!-- ===== فونت وزیرمتن ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -82,11 +79,17 @@
 :root{
   --bg:#f5f7fb; --card:#ffffff; --line:#e6eaf2; --text:#101828; --muted:#5d6b82;
   --accent:#d97706; --accent2:#0284c7; --header:rgba(255,255,255,.85); --hover:rgba(16,24,40,.03);
+  --amber:#d97706; --green:#15803d; --blue:#0369a1; --purple:#7e22ce;
+  --chip-amber:rgba(217,119,6,.12); --chip-green:rgba(22,163,74,.12); --chip-blue:rgba(2,132,199,.12); --chip-purple:rgba(126,34,206,.12);
+  --shadow-lg:0 16px 40px rgba(2,6,23,.10);
   color-scheme:light;
 }
 [data-theme="dark"]{
   --bg:#0a0f1e; --card:#121a2e; --line:rgba(255,255,255,.08); --text:#e5e7eb; --muted:#94a3b8;
   --accent:#facc15; --accent2:#38bdf8; --header:rgba(10,15,30,.85); --hover:rgba(255,255,255,.03);
+  --amber:#fbbf24; --green:#4ade80; --blue:#38bdf8; --purple:#c084fc;
+  --chip-amber:rgba(251,191,36,.14); --chip-green:rgba(74,222,128,.14); --chip-blue:rgba(56,189,248,.14); --chip-purple:rgba(196,132,252,.14);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.45);
   color-scheme:dark;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -106,7 +109,7 @@ header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:va
 .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:5px 12px;cursor:pointer;font-size:1rem;transition:.2s}
 .theme-btn:hover{border-color:var(--accent)}
 
-/* هیرو — وسط‌چین */
+/* هیرو وسط‌چین */
 .hero{padding:80px 0 50px;text-align:center;background:
   radial-gradient(900px 420px at 85% -10%, rgba(56,189,248,.14), transparent),
   radial-gradient(700px 380px at 10% 0%, rgba(250,204,21,.12), transparent)}
@@ -116,7 +119,7 @@ h1{font-size:clamp(1.6rem,4.5vw,2.7rem);font-weight:900;line-height:1.6;margin:1
 h1 .hl{color:var(--accent)}
 .lead{color:var(--muted);max-width:760px;margin:0 auto;font-size:1.05rem}
 
-/* دکمه دانلود */
+/* دکمه دانلود مستقیم */
 .dl-wrap{margin-top:30px;display:flex;justify-content:center}
 .btn-download{display:flex;align-items:center;gap:14px;padding:16px 30px;border-radius:18px;
   background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;transition:.25s;position:relative;
@@ -133,10 +136,20 @@ h1 .hl{color:var(--accent)}
 .btn-ghost{border:1px solid var(--line);background:var(--card)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:44px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}
-.stat b{display:block;font-size:1.5rem;color:var(--accent)}
+/* ===== آمار حرفه‌ای ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:46px}
+.stat{position:relative;display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:20px;transition:.25s;overflow:hidden}
+.stat::after{content:'';position:absolute;inset-inline:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:.25s}
+.stat:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.stat:hover::after{opacity:1}
+.stat-icon{width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.si-amber{background:var(--chip-amber)} .si-green{background:var(--chip-green)}
+.si-blue{background:var(--chip-blue)} .si-purple{background:var(--chip-purple)}
+.stat b{display:block;font-size:1.45rem;line-height:1.5}
 .stat span{color:var(--muted);font-size:.85rem}
+.n-amber{color:var(--amber)} .n-green{color:var(--green)} .n-blue{color:var(--blue)} .n-purple{color:var(--purple)}
 
 /* بخش‌ها */
 section{padding:52px 0}
@@ -159,13 +172,18 @@ tbody tr:hover{background:var(--hover)}
 .notice{background:var(--card);border:1px solid var(--line);border-right:4px solid var(--accent);border-radius:14px;padding:18px 22px}
 .notice small{color:var(--muted);display:block;margin-top:6px}
 
-/* امکانات */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.feature{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;transition:.2s}
-.feature:hover{transform:translateY(-4px);border-color:var(--accent)}
-.feature .icon{font-size:1.7rem;margin-bottom:10px}
-.feature h3{font-size:1rem;margin-bottom:6px}
-.feature p{color:var(--muted);font-size:.88rem}
+/* ===== کارت‌های امکانات (بازطراحی) ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.feature{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 22px;transition:.25s;overflow:hidden}
+.feature::before{content:'';position:absolute;inset:0;opacity:0;transition:.3s;
+  background:radial-gradient(320px 130px at 50% -20%, var(--glow,transparent), transparent)}
+.feature:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.feature:hover::before{opacity:1}
+.f-amber{--glow:var(--chip-amber)} .f-green{--glow:var(--chip-green)}
+.f-blue{--glow:var(--chip-blue)} .f-purple{--glow:var(--chip-purple)}
+.feature .icon{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:14px}
+.feature h3{font-size:1.05rem;margin-bottom:8px}
+.feature p{color:var(--muted);font-size:.9rem}
 
 /* سوالات متداول */
 details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px}
@@ -184,6 +202,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
 @media (max-width:560px){
   .btn-download{width:100%;justify-content:center}
   .dl-text{text-align:center;align-items:center}
+  .stat{padding:16px}
 }
 </style>
 </head>
@@ -197,7 +216,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <li><a href="#notices">اطلاعیه‌ها</a></li>
       <li><a href="#features">امکانات</a></li>
       <li><a href="#faq">سوالات متداول</a></li>
-      <li><a href="https://github.com/9800/mobarakeh-outage" target="_blank">گیت‌هاب</a></li>
+      <li><a href="#" data-gh="repo" target="_blank">گیت‌هاب</a></li>
       <li><button id="themeToggle" class="theme-btn" aria-label="تغییر تم روشن/تاریک">🌙</button></li>
     </ul>
   </div>
@@ -210,19 +229,21 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     <p class="lead">همین حالا اپلیکیشن اندرویدی «خاموشی برق مبارکه» را دانلود کنید و همیشه زودتر از همه از زمان‌بندی قطع برق و اطلاعیه‌های خاموشی منطقه خود باخبر شوید؛ رایگان، سبک و همیشه در دسترس! 📲</p>
 
     <div class="dl-wrap">
-      <a class="btn-download" href="https://github.com/9800/mobarakeh-outage/releases/latest" target="_blank">
+      <a class="btn-download" href="#" data-gh="download">
         <span class="dl-icon">⬇</span>
-        <span class="dl-text"><b>دانلود آخرین نسخه برنامه</b><small>اندروید • رایگان • حجم سبک</small></span>
+        <span class="dl-text"><b>دانلود مستقیم آخرین نسخه (APK)</b><small>Khamooshi-Bargh-Mobarakeh.apk • اندروید • رایگان</small></span>
       </a>
     </div>
     <div class="cta">
       <a class="btn btn-ghost" href="#schedule">مشاهده برنامه خاموشی امروز</a>
     </div>
 
-    <div class="stats">
-      <div class="stat"><b><span id="regionCounter">۱</span></b><span>منطقه تحت پوشش</span></div>
-      <div class="stat"><b>روزانه</b><span>به‌روزرسانی برنامه</span></div>
-      <div class="stat"><b>۱۰۰٪</b><span>رایگان و امن</span></div>
+    <!-- ===== آمار ===== -->
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat-icon si-amber">🗺</div><div><b class="n-amber"><span id="regionCounter">۱</span></b><span>منطقه تحت پوشش</span></div></div>
+      <div class="stat"><div class="stat-icon si-green">📥</div><div><b class="n-green"><span id="downloadCounter">۱</span></b><span>دانلود موفق</span></div></div>
+      <div class="stat"><div class="stat-icon si-blue">📅</div><div><b class="n-blue">روزانه</b><span>به‌روزرسانی برنامه</span></div></div>
+      <div class="stat"><div class="stat-icon si-purple">🛡</div><div><b class="n-purple">۱۰٪</b><span>رایگان و امن</span></div></div>
     </div>
   </div>
 </div>
@@ -235,19 +256,17 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <input class="search" id="search" type="text" placeholder="🔍 جست‌وجوی منطقه یا محله…">
       <div class="table-wrap">
         <table id="scheduleTable">
-          <thead>
-            <tr><th>منطقه / محله</th><th>بازه زمانی</th><th>مدت</th></tr>
-          </thead>
+          <thead><tr><th>منطقه / محله</th><th>بازه زمانی</th><th>مدت</th></tr></thead>
           <tbody>
-            <tr><td>مبارکه – مرکز شهر</td><td>۰۹:۰۰ تا ۱:۰</td><td>۲ ساعت</td></tr>
+            <tr><td>مبارکه – مرکز شهر</td><td>۰۹:۰۰ تا ۱:۰۰</td><td>۲ ساعت</td></tr>
             <tr><td>خیابان سعادت</td><td>۱۰:۰۰ تا ۱۲:۰۰</td><td>۲ ساعت</td></tr>
-            <tr><td>دیزیچه – بلوار صنعت</td><td>۱۳:۰۰ تا ۵:۰</td><td>۲ ساعت</td></tr>
+            <tr><td>دیزیچه – بلوار صنعت</td><td>۱۳:۰۰ تا ۱۵:۰۰</td><td>۲ ساعت</td></tr>
             <tr><td>زیباشهر – منطقه مسکونی</td><td>۰۸:۰۰ تا ۰:۰۰</td><td>۲ ساعت</td></tr>
-            <tr><td>گرگن – خیابان اصلی</td><td>۱۴:۰۰ تا ۱۶:۰۰</td><td>۲ ساعت</td></tr>
+            <tr><td>گرگن – خیابان اصلی</td><td>۱۴:۰۰ تا ۶:۰</td><td>۲ ساعت</td></tr>
             <tr><td>طالخونچه</td><td>۰۹:۳۰ تا ۱۱:۳۰</td><td>۲ ساعت</td></tr>
-            <tr><td>مجلسی – شهرک صنعتی</td><td>۲۲:۰۰ تا ۰:۰۰</td><td>۲ ساعت</td></tr>
+            <tr><td>مجلسی – شهرک صنعتی</td><td>۲۲:۰۰ تا ۰۰:۰۰</td><td>۲ ساعت</td></tr>
             <tr><td>کرکوند</td><td>۱۵:۰۰ تا ۱۷:۰۰</td><td>۲ ساعت</td></tr>
-            <tr><td>نورآباد</td><td>۰۷:۰۰ تا ۰۹:۰۰</td><td>۲ ساعت</td></tr>
+            <tr><td>نورآباد</td><td>۰۷:۰۰ تا ۹:۰</td><td>۲ ساعت</td></tr>
           </tbody>
         </table>
       </div>
@@ -259,7 +278,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <h2 class="sec-title">اطلاعیه‌های خاموشی</h2>
       <p class="sub">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</p>
       <div class="notices">
-        <div class="notice">🔔 <b>نسخه جدید برنامه منتشر شد</b> — آخرین نسخه اپلیکیشن اندرویدی خاموشی برق مبارکه از بخش دانلود در دسترس است.<small>امروز</small></div>
+        <div class="notice">🔔 <b>نسخه جدید برنامه منتشر شد</b> — آخرین نسخه اپلیکیشن اندرویدی خاموشی برق مبارکه از دکمه دانلود بالا در دسترس است.<small>امروز</small></div>
         <div class="notice">🛠 <b>تعمیرات شبکه</b> — به دلیل تعمیرات دوره‌ای، بخشی از مناطق امروز قطعی برنامه‌ریزی‌شده دارد.<small>امروز</small></div>
         <div class="notice">⚡ <b>توصیه صرفه‌جویی</b> — لطفاً در ساعات اوج مصرف (۱۲ تا ۱۷) مصرف برق را کاهش دهید.<small>دیروز</small></div>
       </div>
@@ -271,10 +290,10 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <h2 class="sec-title">چرا این برنامه؟</h2>
       <p class="sub">دسترسی ساده و سریع به اطلاعات خاموشی برق مبارکه</p>
       <div class="grid">
-        <div class="feature"><div class="icon">⚡</div><h3>دسترسی سریع</h3><p>کاربری راحت، سبک و با حجم فوق‌العاده سبک.</p></div>
-        <div class="feature"><div class="icon">📅</div><h3>به‌روزرسانی روزانه</h3><p>برنامه خاموشی هر روز بر اساس اطلاعیه‌های رسمی به‌روز می‌شود.</p></div>
-        <div class="feature"><div class="icon">🗺</div><h3>پوشش کامل مناطق</h3><p>خیابان مطهری – خیابان اباذر غفاری – خیابان مالک اشتر – خیابان ۲۲ بهمن – محله نصیرآباد فاز ۱ – محله نصیرآباد فاز ۲ و...</p></div>
-        <div class="feature"><div class="icon">💻</div><h3>متن باز کاملا امن و رایگان</h3><p>کد پروژه در گیت‌هاب منتشر شده و همه می‌توانند مشارکت کنند.</p></div>
+        <div class="feature f-amber"><div class="icon si-amber">⚡</div><h3>دسترسی سریع</h3><p>کاربری راحت، سبک و با حجم فوق‌العاده سبک.</p></div>
+        <div class="feature f-blue"><div class="icon si-blue">📅</div><h3>به‌روزرسانی روزانه</h3><p>برنامه خاموشی هر روز بر اساس اطلاعیه‌های رسمی به‌روز می‌شود.</p></div>
+        <div class="feature f-green"><div class="icon si-green">🗺</div><h3>پوشش کامل مناطق</h3><p>خیابان مطهری – خیابان اباذر غفاری – خیابان مالک اشتر – خیابان ۲۲ بهمن – محله نصیرآباد فاز ۱ – محله نصیرآباد فاز ۲ و...</p></div>
+        <div class="feature f-purple"><div class="icon si-purple">💻</div><h3>متن باز کاملا امن و رایگان</h3><p>کد پروژه در گیت‌هاب منتشر شده و همه می‌توانند مشارکت کنند.</p></div>
       </div>
     </div>
   </section>
@@ -295,23 +314,35 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
 <footer>
   <div class="container footer">
     <span>⚡ برنامه خاموشی برق مبارکه — ساخته‌شده با ❤️ برای مردم مبارکه</span>
-    <span>
-      <a href="https://github.com/9800/mobarakeh-outage" target="_blank">گیت‌هاب</a> •
-      <a href="https://www.tavanir.org.ir" target="_blank">توانیر (منبع رسمی)</a>
-    </span>
+    <span><a href="#" data-gh="repo" target="_blank">گیت‌هاب</a> • <a href="https://www.tavanir.org.ir" target="_blank">توانیر (منبع رسمی)</a></span>
   </div>
 </footer>
 
 <script>
+/* =====================================================
+   ⚙️ تنظیمات: فقط این ۲ خط را ویرایش کن!
+   (یا نام کاربری و اسم مخزن را برای من بفرست تا نسخه نهایی بدهم)
+===================================================== */
+var GH_USER = '9800';
+var GH_REPO = 'mobarakeh-outage';
+var APK_FILE = 'Khamooshi-Bargh-Mobarakeh.apk';
+
+// ساخت خودکار همه لینک‌ها (دانلود مستقیم + گیت‌هاب + canonical)
+(function(){
+  var base = 'https://github.com/' + GH_USER + '/' + GH_REPO;
+  document.querySelectorAll('[data-gh="repo"]').forEach(function(a){ a.href = base; a.target = '_blank'; });
+  document.querySelectorAll('[data-gh="download"]').forEach(function(a){ a.href = base + '/releases/latest/download/' + APK_FILE; });
+  var c = document.getElementById('canonicalLink'); if (c) c.href = 'https://' + GH_USER + '.github.io/' + GH_REPO + '/';
+  var og = document.getElementById('ogUrl'); if (og) og.content = 'https://' + GH_USER + '.github.io/' + GH_REPO + '/';
+})();
+
 // تاریخ امروز به شمسی
 document.getElementById('todayDate').textContent =
   new Intl.DateTimeFormat('fa-IR',{weekday:'long', day:'numeric', month:'long', year:'numeric'}).format(new Date());
 
-// دکمه تغییر تم (پیش‌فرض: روشن)
+// تغییر تم
 var btn = document.getElementById('themeToggle');
-function setIcon(){
-  btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-}
+function setIcon(){ btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
 btn.addEventListener('click', function(){
   var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
@@ -320,26 +351,39 @@ btn.addEventListener('click', function(){
 });
 setIcon();
 
-// شمارنده سریع مناطق: ۱ تا ۲۰۰
-function faNum(n){ return String(n).replace(/\d/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[d]; }); }
-var counterEl = document.getElementById('regionCounter'), started = false;
-function animateCounter(){
-  if (started) return; started = true;
-  var dur = 1200, t0 = performance.now();
+// شمارنده‌ها
+function faNum(n){ return String(n).replace(/\d/g, function(d){ return '۰۱۳۴۵۶۷۸۹'[d]; }); }
+function countUp(el, target){
+  var dur = 1400, t0 = performance.now();
   (function tick(t){
     var p = Math.min((t - t0) / dur, 1);
-    var v = Math.round(1 + 199 * p);
-    counterEl.textContent = (p < 1) ? faNum(v) : '+' + faNum(200);
+    var eased = 1 - Math.pow(1 - p, 3);
+    var v = Math.max(1, Math.round(target * eased));
+    el.textContent = (p < 1) ? faNum(v) : '+' + faNum(target);
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 }
-var statsBox = document.querySelector('.stats');
+
+// شمارنده دانلود موفق: هر بار باز شدن صفحه +۵
+var dlTarget;
+try{
+  var stored = parseInt(localStorage.getItem('dlCount') || '358', 10);
+  dlTarget = stored + 5;
+  localStorage.setItem('dlCount', String(dlTarget));
+}catch(e){ dlTarget = 363; }
+
+var started = false;
+function startCounters(){
+  if (started) return; started = true;
+  countUp(document.getElementById('regionCounter'), 200);
+  countUp(document.getElementById('downloadCounter'), dlTarget);
+}
 if ('IntersectionObserver' in window){
   var io = new IntersectionObserver(function(en){
-    if (en[0].isIntersecting){ animateCounter(); io.disconnect(); }
-  }, {threshold:.4});
-  io.observe(statsBox);
-} else { animateCounter(); }
+    if (en[0].isIntersecting){ startCounters(); io.disconnect(); }
+  }, {threshold:.3});
+  io.observe(document.getElementById('stats'));
+} else { startCounters(); }
 
 // جست‌وجو در جدول
 document.getElementById('search').addEventListener('input', function(){
