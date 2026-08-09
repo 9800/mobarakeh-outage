@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   push:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,8 +35,25 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
 
-      - name: Upload APK
+      - name: Prepare APK file
+        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Khamooshi-Bargh-Mobarakeh.apk
+
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Mobarakeh-Outage-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/Khamooshi-Bargh-Mobarakeh.apk
+
+      - name: Publish to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "⚡ آخرین نسخه — خاموشی برق مبارکه"
+          body: |
+            آخرین نسخهٔ ساخته‌شدهٔ خودکار اپ «خاموشی برق مبارکه»
+
+            📥 برای نصب: فایل APK زیر را دانلود و روی گوشی اندرویدی نصب کنید.
+            ✅ کار روی اندروید ۵ به بالا (همهٔ گوشی‌ها)
+            🔔 یادآوری با صدا و ویبره + نمایش روی صفحهٔ قفل
+          files: app/build/outputs/apk/debug/Khamooshi-Bargh-Mobarakeh.apk
+          prerelease: false
