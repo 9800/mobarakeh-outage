@@ -9,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.Manifest;
 import android.net.Uri;
@@ -40,14 +41,10 @@ public class MainActivity extends Activity {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         createChannel();
         askNotificationPermission();
-
-        // ✅ شروع سرویس پیش‌زمینه برای جلوگیری از کشته شدن توسط شیائومی
         startForegroundServiceCompat();
-        
-        // ✅ درخواست مجوز بی‌تأثیر بودن از بهینه‌سازی باتری
         requestIgnoreBatteryOptimizations();
+        showXiaomiPopupGuide();
 
-        // اگر از ReminderActivity آمده‌ایم، مستقیم برگرد
         if (getIntent().getBooleanExtra("fromReminder", false)) {
             finish();
             return;
@@ -77,7 +74,38 @@ public class MainActivity extends Activity {
         webView.loadUrl("file:///android_asset/index.html");
     }
 
-    // متد کمکی برای شروع سرویس در نسخه‌های مختلف اندروید
+    /* ✅ راهنمای مجوز پاپ‌آپ شیائومی — فقط یک بار نمایش داده می‌شود */
+    private void showXiaomiPopupGuide() {
+        SharedPreferences sp = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        if (sp.getBoolean("miui_guide_shown", false)) return;
+        sp.edit().putBoolean("miui_guide_shown", true).apply();
+
+        new AlertDialog.Builder(this)
+            .setTitle("تنظیمات ویژهٔ شیائومی (نمایش روی صفحهٔ قفل)")
+            .setMessage("برای اینکه یادآوری هنگام قفل بودن گوشی، تمام‌صفحه روی قفل بیاید:\n\n" +
+                        "۱) در صفحه‌ای که باز می‌شود، گزینهٔ «Display pop-up windows while running in the background» را روی «Always allow / همیشه مجاز» بگذار.\n" +
+                        "۲) در بخش Autostart هم این برنامه را روشن کن.\n\n" +
+                        "بعد از این تنظیم، یادآوری دقیقاً مثل اذانِ بادصبا روی قفل ظاهر می‌شود.")
+            .setPositiveButton("باز کردن تنظیمات", (d, w) -> openMiuiPermissions())
+            .setNegativeButton("بعداً", null)
+            .show();
+    }
+
+    private void openMiuiPermissions() {
+        try {
+            Intent i = new Intent("miui.intent.action.APP_PERM_EDITOR");
+            i.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            i.putExtra("extra_pkgname", getPackageName());
+            startActivity(i);
+        } catch (Exception e) {
+            try {
+                Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                i.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(i);
+            } catch (Exception ignored) {}
+        }
+    }
+
     private void startForegroundServiceCompat() {
         Intent serviceIntent = new Intent(this, MonitoringService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -87,19 +115,19 @@ public class MainActivity extends Activity {
         }
     }
 
-    // درخواست مجوز Ignore Battery Optimizations (حیاتی برای شیائومی)
     private void requestIgnoreBatteryOptimizations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
-                // نمایش دیالوگ راهنما قبل از بردن به تنظیمات
                 new AlertDialog.Builder(this)
-                    .setTitle("تنظیمات مهم برای شیائومی/سامسونگ")
-                    .setMessage("برای اینکه یادآوری‌ها سر ساعت زنگ بخورند، لطفاً در پنجرهٔ بعدی گزینهٔ 'Allow' یا 'مجاز است' را انتخاب کنید تا برنامه از محدودیت باتری معاف شود.")
-                    .setPositiveButton("رفتن به تنظیمات", (dialog, which) -> {
-                        Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + getPackageName()));
-                        startActivity(intent);
+                    .setTitle("معافیت از بهینه‌سازی باتری")
+                    .setMessage("برای اینکه یادآوری‌ها سر ساعت اجرا شوند، در پنجرهٔ بعدی «Allow / مجاز» را بزن.")
+                    .setPositiveButton("رفتن به تنظیمات", (d, w) -> {
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                            intent.setData(Uri.parse("package:" + getPackageName()));
+                            startActivity(intent);
+                        } catch (Exception ignored) {}
                     })
                     .setNegativeButton("بعداً", null)
                     .show();
@@ -111,7 +139,7 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel ch = new NotificationChannel(
                     "outage", "یادآوری خاموشی برق", NotificationManager.IMPORTANCE_HIGH);
-            ch.setDescription("هشدار قطعی برق با صدا و باز شدن اپ");
+            ch.setDescription("هشدار قطعی برق با صدا و نمایش روی قفل");
             ch.enableVibration(true);
             ch.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -132,7 +160,6 @@ public class MainActivity extends Activity {
         return flags;
     }
 
-    /* دریافت مستقیم صفحهٔ کانال از سمت جاوا */
     private String httpGet(String urlStr) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(urlStr).openConnection();
         c.setConnectTimeout(15000);
@@ -210,14 +237,14 @@ public class MainActivity extends Activity {
         intent.putExtra("body", body);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pi = PendingIntent.getActivity(MainActivity.this, id + 10000, intent, pendingFlags());
-        
+
         b.setContentTitle(title).setContentText(body)
          .setSmallIcon(R.drawable.ic_launcher)
          .setAutoCancel(true)
          .setContentIntent(pi)
          .setDefaults(Notification.DEFAULT_ALL)
          .setPriority(Notification.PRIORITY_MAX);
-         
+
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(id, b.build());
     }
