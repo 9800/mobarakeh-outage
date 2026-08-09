@@ -20,6 +20,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends Activity {
     private WebView webView;
     private AlarmManager alarmManager;
@@ -79,7 +86,41 @@ public class MainActivity extends Activity {
         return flags;
     }
 
+    /* دریافت مستقیم صفحهٔ کانال از سمت جاوا — بدون محدودیت CORS و بدون پراکسی */
+    private String httpGet(String urlStr) throws Exception {
+        HttpURLConnection c = (HttpURLConnection) new URL(urlStr).openConnection();
+        c.setConnectTimeout(15000);
+        c.setReadTimeout(15000);
+        c.setInstanceFollowRedirects(true);
+        c.setRequestProperty("User-Agent",
+            "Mozilla/5.0 (Linux; Android 13; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36");
+        InputStream in = c.getInputStream();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int n;
+        while ((n = in.read(buf)) != -1) bos.write(buf, 0, n);
+        in.close();
+        return bos.toString("UTF-8");
+    }
+
     private class Bridge {
+        @JavascriptInterface
+        public void fetchChannel() {
+            new Thread(new Runnable() {
+                @Override public void run() {
+                    String html = "";
+                    try { html = httpGet("https://eitaa.com/epedcmobarake"); } catch (Exception e) { html = ""; }
+                    final String out = html;
+                    webView.post(new Runnable() {
+                        @Override public void run() {
+                            webView.evaluateJavascript(
+                                "window.onNativeFetch(" + JSONObject.quote(out) + ");", null);
+                        }
+                    });
+                }
+            }).start();
+        }
+
         @JavascriptInterface
         public void scheduleAt(long epochMs, int id, String title, String body) {
             if (epochMs < System.currentTimeMillis()) return;
