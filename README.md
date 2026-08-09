@@ -44,12 +44,8 @@
 - Display pop-up windows while running in the background
 - Autostart
 
-## 🛠 توسعه‌دهندگان
-
-- ساخته‌شده با **Android WebView + GitHub Actions** (بیلد خودکار در هر Commit)
-- دریافت مستقیم داده از ایتا بدون پراکسی (سمت جاوا)
-- انتشار خودکار در **GitHub Releases**
-
+## 🛠 توسعه‌ده
+نیکان رایان قهنویه تابستان 1405 هجری شمسی
 > ⚠️ این اپ غیررسمی است؛ دادهٔ خاموشی‌ها مستقیماً از کانال رسمی برق شهرستان مبارکه دریافت می‌شود.
 
 <div align="center">
