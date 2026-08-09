@@ -2,26 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nikanrayan.mobarakeh">
 
-    <!-- مجوزهای اینترنت و شبکه -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
-    <!-- مجوزهای نوتیفیکیشن و آلارم -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    
-    <!-- مجوز نمایش روی برنامه‌های دیگر -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    
-    <!-- ✅ مجوز حیاتی برای نادیده گرفتن بهینه‌سازی باتری (شیائومی) -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    
-    <!-- مجوز اجرای سرویس در پیش‌زمینه -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- ✅ مجوز نمایش تمام‌صفحه روی صفحهٔ قفل (مثل تماس ورودی) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:allowBackup="true"
@@ -42,16 +35,15 @@
         </activity>
 
         <activity
-    android:name=".ReminderActivity"
-    android:exported="false"
-    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-    android:showWhenLocked="true"
-    android:turnScreenOn="true"
-    android:excludeFromRecents="true"
-    android:taskAffinity=""
-    android:launchMode="singleInstance" />
+            android:name=".ReminderActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity="" />
 
-        <!-- ✅ ثبت سرویس پایش جدید -->
         <service
             android:name=".MonitoringService"
             android:enabled="true"
