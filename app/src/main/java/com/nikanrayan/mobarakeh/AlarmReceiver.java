@@ -13,12 +13,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         String title = intent.getStringExtra("title");
         String body = intent.getStringExtra("body");
         int id = intent.getIntExtra("id", 1);
-        Notification.Builder b = (Build.VERSION.SDK_INT >= 26)
-                ? new Notification.Builder(context, "outage")
-                : new Notification.Builder(context);
+        Notification.Builder b;
+        if (Build.VERSION.SDK_INT >= 26) {
+            b = new Notification.Builder(context, "outage");
+        } else {
+            b = new Notification.Builder(context);
+        }
         b.setContentTitle(title).setContentText(body)
          .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true);
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))
-                .notify(id, b.build());
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(id, b.build());
     }
 }
