@@ -11,9 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.Manifest;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -38,6 +40,12 @@ public class MainActivity extends Activity {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         createChannel();
         askNotificationPermission();
+
+        // ✅ شروع سرویس پیش‌زمینه برای جلوگیری از کشته شدن توسط شیائومی
+        startForegroundServiceCompat();
+        
+        // ✅ درخواست مجوز بی‌تأثیر بودن از بهینه‌سازی باتری
+        requestIgnoreBatteryOptimizations();
 
         // اگر از ReminderActivity آمده‌ایم، مستقیم برگرد
         if (getIntent().getBooleanExtra("fromReminder", false)) {
@@ -69,6 +77,36 @@ public class MainActivity extends Activity {
         webView.loadUrl("file:///android_asset/index.html");
     }
 
+    // متد کمکی برای شروع سرویس در نسخه‌های مختلف اندروید
+    private void startForegroundServiceCompat() {
+        Intent serviceIntent = new Intent(this, MonitoringService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent);
+        } else {
+            startService(serviceIntent);
+        }
+    }
+
+    // درخواست مجوز Ignore Battery Optimizations (حیاتی برای شیائومی)
+    private void requestIgnoreBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                // نمایش دیالوگ راهنما قبل از بردن به تنظیمات
+                new AlertDialog.Builder(this)
+                    .setTitle("تنظیمات مهم برای شیائومی/سامسونگ")
+                    .setMessage("برای اینکه یادآوری‌ها سر ساعت زنگ بخورند، لطفاً در پنجرهٔ بعدی گزینهٔ 'Allow' یا 'مجاز است' را انتخاب کنید تا برنامه از محدودیت باتری معاف شود.")
+                    .setPositiveButton("رفتن به تنظیمات", (dialog, which) -> {
+                        Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("بعداً", null)
+                    .show();
+            }
+        }
+    }
+
     private void createChannel() {
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel ch = new NotificationChannel(
@@ -94,7 +132,7 @@ public class MainActivity extends Activity {
         return flags;
     }
 
-    /* دریافت مستقیم صفحهٔ کانال از سمت جاوا — بدون محدودیت CORS و بدون پراکسی */
+    /* دریافت مستقیم صفحهٔ کانال از سمت جاوا */
     private String httpGet(String urlStr) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(urlStr).openConnection();
         c.setConnectTimeout(15000);
@@ -167,7 +205,6 @@ public class MainActivity extends Activity {
         } else {
             b = new Notification.Builder(MainActivity.this);
         }
-        // Intent برای باز کردن ReminderActivity هنگام لمس نوتیفیکیشن
         Intent intent = new Intent(MainActivity.this, ReminderActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("body", body);
