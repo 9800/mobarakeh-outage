@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -37,6 +38,12 @@ public class MainActivity extends Activity {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         createChannel();
         askNotificationPermission();
+
+        // اگر از ReminderActivity آمده‌ایم، مستقیم برگرد
+        if (getIntent().getBooleanExtra("fromReminder", false)) {
+            finish();
+            return;
+        }
 
         webView = new WebView(this);
         WebSettings ws = webView.getSettings();
@@ -66,8 +73,9 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel ch = new NotificationChannel(
                     "outage", "یادآوری خاموشی برق", NotificationManager.IMPORTANCE_HIGH);
-            ch.setDescription("هشدار قطعی برق با صدا");
+            ch.setDescription("هشدار قطعی برق با صدا و باز شدن اپ");
             ch.enableVibration(true);
+            ch.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             nm.createNotificationChannel(ch);
         }
@@ -159,8 +167,20 @@ public class MainActivity extends Activity {
         } else {
             b = new Notification.Builder(MainActivity.this);
         }
+        // Intent برای باز کردن ReminderActivity هنگام لمس نوتیفیکیشن
+        Intent intent = new Intent(MainActivity.this, ReminderActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("body", body);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pi = PendingIntent.getActivity(MainActivity.this, id + 10000, intent, pendingFlags());
+        
         b.setContentTitle(title).setContentText(body)
-         .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true);
+         .setSmallIcon(R.drawable.ic_launcher)
+         .setAutoCancel(true)
+         .setContentIntent(pi)
+         .setDefaults(Notification.DEFAULT_ALL)
+         .setPriority(Notification.PRIORITY_MAX);
+         
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(id, b.build());
     }
