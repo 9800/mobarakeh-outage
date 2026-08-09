@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.SoundPool;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,17 +19,16 @@ import android.widget.TextView;
 import android.util.TypedValue;
 
 public class ReminderActivity extends Activity {
-    private SoundPool soundPool;
-    private int alertSoundId;
+    private MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
-    private Runnable alertRunnable;
-    private boolean isPlaying = true;
+    private Runnable vibrateRunnable;
+    private boolean isAlertActive = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // تنظیمات پنجره: تمام صفحه، بالای همه چیز
+        // تنظیمات پنجره: تمام صفحه، بالای همه چیز، حتی وقتی قفل است
         if (Build.VERSION.SDK_INT >= 26) {
             getWindow().setType(android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         } else {
@@ -51,7 +49,7 @@ public class ReminderActivity extends Activity {
         root.setLayoutParams(new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
-        root.setBackgroundColor(Color.parseColor("#1a1a1a"));
+        root.setBackgroundColor(Color.parseColor("#1a1a1a")); // پس‌زمینه تیره
         root.setGravity(Gravity.CENTER);
         root.setPadding(40, 60, 40, 60);
 
@@ -59,7 +57,7 @@ public class ReminderActivity extends Activity {
         TextView titleView = new TextView(this);
         titleView.setText("⚡ " + (title != null ? title : "یادآوری خاموشی برق"));
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-        titleView.setTextColor(Color.parseColor("#ffeb3b"));
+        titleView.setTextColor(Color.parseColor("#ffeb3b")); // زرد روشن
         titleView.setTypeface(Typeface.DEFAULT_BOLD);
         titleView.setGravity(Gravity.CENTER);
         titleView.setPadding(0, 0, 0, 30);
@@ -76,10 +74,10 @@ public class ReminderActivity extends Activity {
 
         // دکمه بستن
         Button closeBtn = new Button(this);
-        closeBtn.setText("متوجه شدم");
+        closeBtn.setText("متوجه شدم (توقف آلارم)");
         closeBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         closeBtn.setTypeface(Typeface.DEFAULT_BOLD);
-        closeBtn.setBackgroundColor(Color.parseColor("#4CAF50"));
+        closeBtn.setBackgroundColor(Color.parseColor("#4CAF50")); // سبز
         closeBtn.setTextColor(Color.WHITE);
         closeBtn.setPadding(60, 20, 60, 20);
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
@@ -94,83 +92,80 @@ public class ReminderActivity extends Activity {
 
         setContentView(root);
 
-        // شروع هشدار صوتی و لرزش
+        // شروع هشدار (صدا + ویبره)
         startAlert();
     }
 
     private void startAlert() {
-        // ویبره قوی
+        // ۱. پخش صدای آژیر از فایل alert.mp3
+        try {
+            // R.raw.alert اشاره به فایل app/src/main/res/raw/alert.mp3 دارد
+            mediaPlayer = MediaPlayer.create(this, R.raw.alert);
+            if (mediaPlayer != null) {
+                mediaPlayer.setLooping(true); // تکرار بی‌نهایت
+                mediaPlayer.setVolume(1.0f, 1.0f); // حداکثر صدا
+                mediaPlayer.start();
+            }
+        } catch (Exception e) {
+            // اگر فایل پیدا نشد یا خطایی داد، لاگ بگیر (در محیط واقعی)
+            e.printStackTrace();
+        }
+
+        // ۲. شروع ویبره تکرارشونده
         vibrateStrong();
-
-        // تنظیم SoundPool برای صدای آژیر
-        AudioAttributes attrs = new AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ALARM)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build();
-        soundPool = new SoundPool.Builder()
-            .setMaxStreams(3)
-            .setAudioAttributes(attrs)
-            .build();
-
-        // تولید صدای آژیر با فرکانس متغیر
-        alertSoundId = soundPool.load(createAlertSound(), 1);
-        
-        // پخش تکراری
-        alertRunnable = new Runnable() {
+        vibrateRunnable = new Runnable() {
             @Override
             public void run() {
-                if (isPlaying) {
-                    soundPool.play(alertSoundId, 1.0f, 1.0f, 0, -1, 1.0f);
+                if (isAlertActive) {
                     vibrateStrong();
-                    handler.postDelayed(this, 2000); // هر ۲ ثانیه تکرار
+                    handler.postDelayed(this, 2000); // هر ۲ ثانیه ویبره
                 }
             }
         };
-        handler.postDelayed(alertRunnable, 500);
+        handler.postDelayed(vibrateRunnable, 500);
     }
 
     private void stopAlert() {
-        isPlaying = false;
-        handler.removeCallbacks(alertRunnable);
-        if (soundPool != null) {
-            soundPool.stop(alertSoundId);
-            soundPool.release();
+        isAlertActive = false;
+        
+        // توقف صدا
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mediaPlayer = null;
         }
+
+        // توقف ویبره
+        handler.removeCallbacks(vibrateRunnable);
     }
 
     private void vibrateStrong() {
+        android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (vibrator == null || !vibrator.hasVibrator()) return;
+
         if (Build.VERSION.SDK_INT >= 26) {
-            long[] pattern = {0, 500, 200, 500, 200, 500}; // ویبره طولانی با وقفه
-            android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
-            if (vibrator != null && vibrator.hasVibrator()) {
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
-            }
+            // الگوی ویبره: ۵۰۰ میلی‌ثانیه روشن، ۲۰۰ خاموش، ۵۰۰ روشن...
+            long[] pattern = {0, 500, 200, 500, 200, 500};
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
         } else {
             long[] pattern = {0, 500, 200, 500, 200, 500};
-            android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
-            if (vibrator != null) {
-                vibrator.vibrate(pattern, 0);
-            }
+            vibrator.vibrate(pattern, 0);
         }
-    }
-
-    // تولید صدای آژیر دیجیتالی
-    private int createAlertSound() {
-        // اینجا از یک الگوی سادهٔ موج سینوسی استفاده می‌کنیم
-        // در نسخه‌های بعدی می‌توان فایل صوتی واقعی اضافه کرد
-        return 0; // Placeholder - در عمل باید فایل صوتی لود شود
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopAlert();
+        stopAlert(); // اطمینان از توقف صدا هنگام خروج
     }
 
     @Override
     public void onBackPressed() {
-        // جلوگیری از بستن با دکمه Back تا کاربر دکمه را بزند
-        // یا می‌توان اجازه داد که ببندد:
+        // کاربر مجبور است دکمه را بزند تا متوقف شود (اختیاری: می‌توانی اجازه بدهی با Back هم بسته شود)
         stopAlert();
         super.onBackPressed();
     }
