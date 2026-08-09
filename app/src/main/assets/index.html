@@ -11,6 +11,7 @@
   --bg:#f2f5f3; --card:rgba(255,255,255,.82); --text:#10201a; --muted:#5c6f66;
   --primary:#006a49; --primary2:#009066; --on-primary:#ffffff;
   --primary-soft:#d9f2e6; --danger:#d32f2f; --danger-soft:#ffe3de;
+  --bell:#f59e0b;
   --border:#dbe5df; --radius:26px; --shadow:0 12px 32px rgba(16,32,26,.10);
   --ring:0 0 0 4px rgba(0,144,102,.16); --field:#ffffff;
 }
@@ -19,6 +20,7 @@
     --bg:#0d1210; --card:rgba(22,29,26,.80); --text:#e6efea; --muted:#93a69c;
     --primary:#3ddc97; --primary2:#1fb87b; --on-primary:#04241a;
     --primary-soft:#0d3a2c; --danger:#ff8a80; --danger-soft:#4a211d;
+    --bell:#fbbf24;
     --border:#24312b; --shadow:0 12px 32px rgba(0,0,0,.45); --field:#101815;
   }
 }
@@ -44,8 +46,10 @@ main>.card:nth-child(2){animation-delay:.06s} main>.card:nth-child(3){animation-
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;vertical-align:middle;margin-left:6px}
 .dot.red{background:var(--danger);animation:pulseR 1.3s infinite}
 .dot.green{background:var(--primary2);animation:pulseG 1.3s infinite}
+.dot.bell{background:var(--bell);animation:pulseBell 1.3s infinite}
 @keyframes pulseR{0%{box-shadow:0 0 0 0 rgba(211,47,47,.45)}70%{box-shadow:0 0 0 9px rgba(211,47,47,0)}100%{box-shadow:0 0 0 0 rgba(211,47,47,0)}}
 @keyframes pulseG{0%{box-shadow:0 0 0 0 rgba(0,144,102,.45)}70%{box-shadow:0 0 0 9px rgba(0,144,102,0)}100%{box-shadow:0 0 0 0 rgba(0,144,102,0)}}
+@keyframes pulseBell{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 9px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}
 label{font-size:.78rem; color:var(--muted); display:block; margin-bottom:8px}
 .row{display:flex; gap:8px; flex-wrap:wrap}
 input[type=text],select{flex:1; min-width:150px; border:1.5px solid var(--border); background:var(--field); color:var(--text); border-radius:18px; padding:13px 16px; font-family:inherit; font-size:.92rem; outline:none; transition:border .2s, box-shadow .2s}
@@ -53,6 +57,7 @@ input[type=text]:focus,select:focus{border-color:var(--primary2); box-shadow:var
 button{border:none; background:linear-gradient(135deg,var(--primary2),var(--primary)); color:var(--on-primary); border-radius:18px; padding:13px 24px; font-family:inherit; font-size:.95rem; font-weight:800; cursor:pointer; box-shadow:0 8px 18px rgba(0,106,73,.30); transition:transform .15s, box-shadow .2s}
 button:active{transform:scale(.96)}
 button.ghost{background:transparent; color:var(--primary); border:1.5px solid var(--primary); padding:12px 18px; font-size:.85rem; box-shadow:none; border-radius:18px}
+button.small{padding:8px 14px; font-size:.78rem; border-radius:14px; box-shadow:none; background:var(--primary-soft); color:var(--primary); margin-top:6px}
 .hint{font-size:.7rem; color:var(--muted); margin-top:8px}
 .warn{background:var(--danger-soft); color:var(--danger); border-radius:14px; padding:10px 14px; font-size:.74rem; margin-top:10px}
 .status{display:block; padding:13px 16px; border-radius:18px; font-weight:800; margin-top:12px}
@@ -124,6 +129,26 @@ footer{text-align:center; padding:10px 0 34px; color:var(--muted); font-size:.7r
     <div id="dayWarn" class="warn" style="display:none"></div>
     <table id="table"><tbody></tbody></table>
   </div>
+
+  <!-- کارت یادآوری به آخر منتقل شد -->
+  <div class="card" id="reminderCard">
+    <div class="card-title"><span class="dot bell"></span> یادآوری خاموشی (نوتیف + صدا)</div>
+    <label style="margin-top:10px">گروه/محلهٔ موردنظر:</label>
+    <div class="row"><select id="nbrSel" style="flex:1"><option value="">— انتخاب کنید —</option></select></div>
+    <label style="margin-top:10px">چند دقیقه قبل یادآوری شود:</label>
+    <div class="row">
+      <select id="notifMin" style="flex:1">
+        <option value="5">۵ دقیقه</option>
+        <option value="10">۱۰ دقیقه</option>
+        <option value="15" selected>۱۵ دقیقه</option>
+        <option value="30">۳۰ دقیقه</option>
+        <option value="60">۶۰ دقیقه</option>
+      </select>
+      <button id="setReminder">تنظیم یادآوری</button>
+    </div>
+    <div class="hint" id="remInfo"></div>
+    <div class="hint" id="autoInfo" style="margin-top:10px">🔄 به‌روزرسانی خودکار هر ۵ دقیقه و با هر بار ورود به برنامه فعال است.</div>
+  </div>
 </main>
 
 <footer>نسخهٔ وب • پایگاه دادهٔ محله‌ها طبق جدول رسمی کانال (اصلاح‌شده) • NikaNRaYaN</footer>
@@ -136,7 +161,7 @@ const GROUP_DATA = {
 2:"مبارکه: ضلع شمال بلوار شریعتی – بلوار ۱۵ خرداد – خیابان باهنر – خیابان شهید مصطفی خمینی – صفاییه محله ۷ و ۸ – بلوار محتشم – بلوار الزهرا – سازمان تامین اجتماعی – دادگستری – تربیت بدنی و استخر ابوذر – مجموعه سایت اداری شهرستان - اداره آب – اداره برق – اداره ثبت احوال – اداره ثبت اسناد – اداره مسکن و شهرسازی – اداره کار و امور اجتماعی – کمیته امداد – فرمانداری – دادگستری – اداره کار – بنیاد مسکن – منابع طبیعی – بانک ملی شعبه خلیج فارس – چاه آب فلمن – خیابان آیت‌الله طالقانی – محله سرارود – اداره پست – کوی سجاد",
 3:"بیمارستان محمد رسول‌الله",
 4:"مبارکه: کرکوند – حسن آباد بیدگان – خیرآباد – سیاهبوم – سورچه پایین – سورچه بالا – جاده فولاد درب زرین شهر – شرکت ایثارگران – راه آهن حسن آباد",
-5:"مبارکه: صفاییه محله ۴ و  – بلوار پرستار – کلانتری ۱۱ – دهنو – درچه – وینیچه - دیزیچه خیابان عمان سامانی – قسمتی از محله ۸ صفاییه – خیابان انتظام – اداره آبفا – دانشگاه آزاد اسلامی مبارکه – مسکن مهر شهر دیزیچه – انشعاب‌های برق دهنو – بلوار شهید ربیعی ضلع شمال – ویلاهای شهرداری پارک سرارود",
+5:"مبارکه: صفاییه محله ۴ و ۵ – بلوار پرستار – کلانتری ۱۱ – دهنو – درچه – وینیچه - دیزیچه خیابان عمان سامانی – قسمتی از محله ۸ صفاییه – خیابان انتظام – اداره آبفا – دانشگاه آزاد اسلامی مبارکه – مسکن مهر شهر دیزیچه – انشعاب‌های برق دهنو – بلوار شهید ربیعی ضلع شمال – ویلاهای شهرداری پارک سرارود",
 7:"مبارکه: صفاییه محله ۱ – مبارکه: صفاییه محله ۲ – مبارکه: صفاییه محله ۴ – مبارکه: صفاییه محله ۹ – مبارکه: صفاییه محله ۱۰ – روستای بداغ آباد – محله آسیاب آباد",
 8:"مبارکه: خیابان سلمان از چهارراه بازار تا بلوار فتح المبین – خیابان فردوسی – خیابان رسالت – بلوار فتح المبین – خیابان بسیج جنوبی – خیابان حافظ شرقی و غربی – خیابان امام خمینی جنوبی – خیابان مطهری – خیابان اباذر غفاری – خیابان مالک اشتر – خیابان ۲۲ بهمن – محله نصیرآباد فاز ۱ - محله نصیرآباد فاز ۲ - محله نصیرآباد فاز ۳ – اداره سازمان فنی و حرفه‌ای – بلوار جانبازان – خیابان بوعلی – خیابان مبارزان – هلال احمر مبارکه – اداره گاز – استخر اسپینر – جایگاه گاز CNG – خانه معلم مبارکه",
 9:"انشعاب نوروزی – قلعه حکیم – انشعاب صفیری – انشعاب کدخدایی – پرورش ماهی هیرمن پور – جنب جاده فولاد درب مبارکه – انشعاب کشاورزی جنب شرکت توکا – انشعاب کشاورزی چغاجوش – ابراهیم آباد – هیرمندپور – قلعه حکیم – کشتارگاه هامون – پرورش ماهی رئیسی",
@@ -166,6 +191,7 @@ const PROXIES = [
   {url:u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u)},
   {url:u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u), json:true}
 ];
+const AUTO_REFRESH_MS = 5 * 60 * 1000; // هر ۵ دقیقه
 /* ============ ابزارها (ارقام برنامه‌نویسی‌شده — غیرقابل خرابی) ============ */
 const $ = id => document.getElementById(id);
 const FA = Array.from({length:10},(_,i)=>String.fromCharCode(0x06F0+i)).join('');
@@ -449,7 +475,9 @@ function applyQuery(q){
     box.insertAdjacentHTML('beforeend',
       '<div class="card res" data-group="'+h.group+'">'+
       '<div class="row" style="justify-content:space-between;align-items:center">'+
-      '<strong style="font-size:1rem">گروه '+toFa(h.group)+'</strong></div>'+
+      '<strong style="font-size:1rem">گروه '+toFa(h.group)+'</strong>'+
+      '<button class="small" onclick="quickRemind('+h.group+')">🔔 یادآوری این گروه</button>'+
+      '</div>'+
       '<div class="chips">'+chips+more+'</div>'+
       '<div class="big-time">'+(entry?('ساعت '+toFa(entry.startH)+' تا '+toFa(entry.endH)):'—')+'</div>'+
       '<div class="status on">…</div></div>');
@@ -477,6 +505,7 @@ async function refresh(manual){
     localStorage.setItem('mob_cache',JSON.stringify({t:Date.now(),html}));
     $('err').style.display='none'; stamp(false);
     renderDayUI(); applyQuery($('q').value); tickNowOut();
+    rescheduleSavedReminder();
   }catch(e){
     const cache=localStorage.getItem('mob_cache');
     if(cache){
@@ -518,7 +547,134 @@ $('saveMap').addEventListener('click',()=>{
   tickNowOut();
   setInterval(tick,1000);
   refresh(false);
+
+  /* === به‌روزرسانی خودکار هر ۵ دقیقه === */
+  setInterval(()=>refresh(false), AUTO_REFRESH_MS);
+
+  /* === به‌روزرسانی خودکار با هر بار ورود به برنامه (باز شدن تب، بازگشت از پس‌زمینه در WebView) === */
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible'){
+      refresh(false);
+    }
+  });
+  window.addEventListener('focus', ()=>refresh(false));
 })();
+
+/* ===================================================================
+   افزونهٔ یادآوری با نوتیفیکیشن و صدا (وب + APK اندروید)
+=================================================================== */
+const isApp = (typeof window.AndroidBridge !== 'undefined');
+
+function playAlertSound(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.6, 1.2].forEach(delay => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine'; o.frequency.value = 880;
+      g.gain.setValueAtTime(0.001, ctx.currentTime + delay);
+      g.gain.exponentialRampToValueAtTime(0.7, ctx.currentTime + delay + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.5);
+      o.start(ctx.currentTime + delay);
+      o.stop(ctx.currentTime + delay + 0.55);
+    });
+  }catch(e){}
+}
+
+function scheduleReminder(groupNum, minutes){
+  groupNum = +groupNum; minutes = +minutes;
+  if(!groupNum){ alert('ابتدا یک گروه انتخاب کنید.'); return; }
+  if(!minutes){ alert('زمان یادآوری را انتخاب کنید.'); return; }
+  if(!SCHEDULE){
+    alert('هنوز جدول ساعت‌ها دریافت نشده است. لطفاً چند لحظه صبر کنید.');
+    return;
+  }
+  const entry = SCHEDULE.entries.find(e => e.groups.includes(groupNum));
+  if(!entry){
+    alert('برای گروه ' + toFa(groupNum) + ' در برنامهٔ ' + relLabel(SCHEDULE.diffDays) + ' خاموشی اعلام نشده است.');
+    return;
+  }
+  const b = entryBounds(entry, SCHEDULE.baseDate);
+  const at = b.s.getTime() - minutes*60000;
+  if(at < Date.now()){
+    alert('زمان یادآوری گذشته است.');
+    return;
+  }
+  const title = '⚡ یادآوری خاموشی برق';
+  const body  = 'گروه ' + toFa(groupNum) + ' — ' + toFa(minutes) + ' دقیقه دیگر (ساعت ' + toFa(entry.startH) + ') برق قطع می‌شود.';
+  const alarmId = groupNum + 1000;
+
+  if(isApp){
+    try{
+      window.AndroidBridge.scheduleAt(at, alarmId, title, body);
+      localStorage.setItem('mob_reminder', JSON.stringify({group:groupNum, min:minutes, alarmId}));
+      alert('✅ یادآوری تنظیم شد.\n\nحتی اگر اپ را ببندید، سر ساعت مقرر نوتیفیکیشن با صدا دریافت می‌کنید.');
+    }catch(e){
+      alert('خطا در ثبت یادآوری: ' + e.message);
+    }
+  } else {
+    if(!('Notification' in window)){
+      alert('مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند.');
+      return;
+    }
+    if(Notification.permission !== 'granted'){
+      Notification.requestPermission().then(p=>{
+        if(p === 'granted') scheduleReminder(groupNum, minutes);
+        else alert('دسترسی نوتیفیکیشن داده نشد.');
+      });
+      return;
+    }
+    setTimeout(()=>{
+      new Notification(title, { body, requireInteraction:true });
+      playAlertSound();
+    }, at - Date.now());
+    alert('✅ یادآوری تنظیم شد.');
+  }
+}
+
+function quickRemind(groupNum){
+  const sel = $('notifMin');
+  const minutes = sel ? +sel.value : 15;
+  scheduleReminder(groupNum, minutes);
+}
+
+function rescheduleSavedReminder(){
+  try{
+    const saved = localStorage.getItem('mob_reminder');
+    if(!saved) return;
+    const {group, min} = JSON.parse(saved);
+    if(group && min) scheduleReminder(group, min);
+  }catch(e){}
+}
+
+/* پر کردن لیست گروه‌ها در کارت یادآوری */
+(function populateReminderCard(){
+  const sel = $('nbrSel');
+  if(!sel) return;
+  Object.keys(GROUP_DATA).forEach(g=>{
+    sel.insertAdjacentHTML('beforeend','<option value="'+g+'">گروه '+toFa(g)+'</option>');
+  });
+  try{
+    const saved = localStorage.getItem('mob_reminder');
+    if(saved){
+      const {group, min} = JSON.parse(saved);
+      if(group) sel.value = group;
+      if(min) $('notifMin').value = min;
+      $('remInfo').textContent = '✅ یادآوری فعال برای گروه ' + toFa(group) + ' — ' + toFa(min) + ' دقیقه قبل';
+    }
+  }catch(e){}
+  $('setReminder').addEventListener('click', ()=>{
+    const g = sel.value;
+    const m = $('notifMin').value;
+    if(!g){ alert('ابتدا یک گروه انتخاب کنید.'); return; }
+    scheduleReminder(g, m);
+    $('remInfo').textContent = '✅ یادآوری برای گروه ' + toFa(g) + ' — ' + toFa(m) + ' دقیقه قبل از قطع تنظیم شد.';
+  });
+})();
+
+if(!isApp && 'Notification' in window && Notification.permission === 'default'){
+  Notification.requestPermission();
+}
 </script>
 </body>
 </html>
