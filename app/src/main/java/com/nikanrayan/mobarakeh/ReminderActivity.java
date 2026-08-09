@@ -33,10 +33,19 @@ public class ReminderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        // ✅ تنظیمات حیاتی برای نمایش روی صفحهٔ قفل
+        getWindow().addFlags(
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |      // نمایش حتی وقتی قفل است
+            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |       // روشن کردن صفحه
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |       // خاموش نشدن صفحه
+            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |     // برداشتن قفل صفحه
+            WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON // اجازه قفل مجدد بعد از خاموشی
+        );
+
+        // ✅ در اندروید O+، نوع پنجره را به OVERLAY تغییر بده (برای نمایش روی همه چیز)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        }
 
         String title = getIntent().getStringExtra("title");
         String body = getIntent().getStringExtra("body");
@@ -139,9 +148,11 @@ public class ReminderActivity extends Activity {
         stopAlert();
     }
 
+    // ✅ جلوگیری از بسته شدن با دکمه Back — فقط دکمهٔ «متوجه شدم» کار می‌کند
     @Override
     public void onBackPressed() {
-        stopAlert();
-        super.onBackPressed();
+        // هیچ کاری نکن — کاربر مجبور است دکمه را بزند
+        // یا اگر می‌خواهی با Back هم بسته شود، این خط را فعال کن:
+        // stopAlert(); super.onBackPressed();
     }
 }
