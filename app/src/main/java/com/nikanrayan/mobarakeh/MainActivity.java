@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.Manifest;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         createChannel();
         askNotificationPermission();
 
@@ -60,7 +61,8 @@ public class MainActivity extends Activity {
                     "outage", "یادآوری خاموشی برق", NotificationManager.IMPORTANCE_HIGH);
             ch.setDescription("هشدار قطعی برق با صدا");
             ch.enableVibration(true);
-            getSystemService(NotificationManager.class).createNotificationChannel(ch);
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.createNotificationChannel(ch);
         }
     }
 
@@ -71,6 +73,12 @@ public class MainActivity extends Activity {
         }
     }
 
+    private static int pendingFlags() {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_IMMUTABLE;
+        return flags;
+    }
+
     private class Bridge {
         @JavascriptInterface
         public void scheduleAt(long epochMs, int id, String title, String body) {
@@ -79,23 +87,21 @@ public class MainActivity extends Activity {
             i.putExtra("title", title);
             i.putExtra("body", body);
             i.putExtra("id", id);
-            PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, id, i,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, id, i, pendingFlags());
             try {
                 if (Build.VERSION.SDK_INT >= 23)
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, epochMs, pi);
                 else
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, epochMs, pi);
             } catch (SecurityException e) {
-                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, epochMs, pi);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, epochMs, pi);
             }
         }
 
         @JavascriptInterface
         public void cancel(int id) {
             Intent i = new Intent(MainActivity.this, AlarmReceiver.class);
-            PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, id, i,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, id, i, pendingFlags());
             alarmManager.cancel(pi);
         }
 
@@ -106,12 +112,16 @@ public class MainActivity extends Activity {
     }
 
     void postNotification(String title, String body, int id) {
-        Notification.Builder b = (Build.VERSION.SDK_INT >= 26)
-                ? new Notification.Builder(this, "outage")
-                : new Notification.Builder(this);
+        Notification.Builder b;
+        if (Build.VERSION.SDK_INT >= 26) {
+            b = new Notification.Builder(MainActivity.this, "outage");
+        } else {
+            b = new Notification.Builder(MainActivity.this);
+        }
         b.setContentTitle(title).setContentText(body)
          .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true);
-        getSystemService(NotificationManager.class).notify(id, b.build());
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(id, b.build());
     }
 
     @Override
