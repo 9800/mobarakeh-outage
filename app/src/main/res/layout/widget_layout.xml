@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widgetRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="⚡ خاموشی برق مبارکه"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/wRefresh"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:text="🔄"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="#ffd54f" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffeb3b"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:id="@+id/wRows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#e6f4ee"
+        android:textSize="11sp"
+        android:layout_marginTop="6dp"
+        android:maxLines="4" />
+
+    <TextView
+        android:id="@+id/wUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#9fd4bd"
+        android:textSize="10sp"
+        android:layout_marginTop="6dp" />
+</LinearLayout>
