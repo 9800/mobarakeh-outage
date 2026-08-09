@@ -1,6 +1,7 @@
 package com.nikanrayan.mobarakeh;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -33,18 +34,18 @@ public class ReminderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ تنظیمات حیاتی برای نمایش روی صفحهٔ قفل
+        // ✅ نمایش روی صفحهٔ قفل + روشن کردن + باز بودن قفل
         getWindow().addFlags(
-            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |      // نمایش حتی وقتی قفل است
-            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |       // روشن کردن صفحه
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |       // خاموش نشدن صفحه
-            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |     // برداشتن قفل صفحه
-            WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON // اجازه قفل مجدد بعد از خاموشی
-        );
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
-        // ✅ در اندروید O+، نوع پنجره را به OVERLAY تغییر بده (برای نمایش روی همه چیز)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        if (Build.VERSION.SDK_INT >= 27) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+            KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+            if (km != null) km.requestDismissKeyguard(this, null);
         }
 
         String title = getIntent().getStringExtra("title");
@@ -123,23 +124,16 @@ public class ReminderActivity extends Activity {
     private void stopAlert() {
         isAlertActive = false;
         handler.removeCallbacks(vibrateRunnable);
-        try {
-            if (mediaPlayer != null) { mediaPlayer.stop(); mediaPlayer.release(); mediaPlayer = null; }
-        } catch (Exception ignored) {}
-        try {
-            if (fallbackRingtone != null) { fallbackRingtone.stop(); fallbackRingtone = null; }
-        } catch (Exception ignored) {}
+        try { if (mediaPlayer != null) { mediaPlayer.stop(); mediaPlayer.release(); mediaPlayer = null; } } catch (Exception ignored) {}
+        try { if (fallbackRingtone != null) { fallbackRingtone.stop(); fallbackRingtone = null; } } catch (Exception ignored) {}
     }
 
     private void vibrateStrong() {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (vibrator == null) return;
         long[] pattern = {0, 500, 200, 500, 200, 500};
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
-        } else {
-            vibrator.vibrate(pattern, 0);
-        }
+        if (Build.VERSION.SDK_INT >= 26) vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
+        else vibrator.vibrate(pattern, 0);
     }
 
     @Override
@@ -148,11 +142,9 @@ public class ReminderActivity extends Activity {
         stopAlert();
     }
 
-    // ✅ جلوگیری از بسته شدن با دکمه Back — فقط دکمهٔ «متوجه شدم» کار می‌کند
+    // ✅ فقط دکمهٔ «متوجه شدم» می‌تواند آلارم را ببندد
     @Override
     public void onBackPressed() {
-        // هیچ کاری نکن — کاربر مجبور است دکمه را بزند
-        // یا اگر می‌خواهی با Back هم بسته شود، این خط را فعال کن:
-        // stopAlert(); super.onBackPressed();
+        // عمداً خالی — با Back بسته نمی‌شود
     }
 }
