@@ -130,7 +130,6 @@ footer{text-align:center; padding:10px 0 34px; color:var(--muted); font-size:.7r
     <table id="table"><tbody></tbody></table>
   </div>
 
-  <!-- کارت یادآوری به آخر منتقل شد -->
   <div class="card" id="reminderCard">
     <div class="card-title"><span class="dot bell"></span> یادآوری خاموشی (نوتیف + صدا)</div>
     <label style="margin-top:10px">گروه/محلهٔ موردنظر:</label>
@@ -191,8 +190,8 @@ const PROXIES = [
   {url:u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u)},
   {url:u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u), json:true}
 ];
-const AUTO_REFRESH_MS = 5 * 60 * 1000; // هر ۵ دقیقه
-/* ============ ابزارها (ارقام برنامه‌نویسی‌شده — غیرقابل خرابی) ============ */
+const AUTO_REFRESH_MS = 5 * 60 * 1000;
+/* ============ ابزارها ============ */
 const $ = id => document.getElementById(id);
 const FA = Array.from({length:10},(_,i)=>String.fromCharCode(0x06F0+i)).join('');
 const AR = Array.from({length:10},(_,i)=>String.fromCharCode(0x0660+i)).join('');
@@ -285,18 +284,31 @@ function searchGroups(q){
   }catch(e){}
   return hits.sort((a,b)=>a.group-b.group);
 }
-/* ============ دریافت و تجزیه جدول ============ */
+/* ============ دریافت جدول (در APK: مستقیم از ایتا توسط جاوا) ============ */
+function nativeFetch(){
+  return new Promise((resolve, reject) => {
+    const to = setTimeout(() => reject(new Error('timeout')), 20000);
+    window.onNativeFetch = (html) => { clearTimeout(to); resolve(html || ''); };
+    try { window.AndroidBridge.fetchChannel(); } catch (e) { clearTimeout(to); reject(e); }
+  });
+}
 async function fetchPage(){
-  for(const p of PROXIES){
-    try{
-      const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),15000);
-      const r=await fetch(p.url(SOURCE_URL),{signal:ctl.signal,cache:'no-store'});
+  if (typeof window.AndroidBridge !== 'undefined') {
+    try {
+      const txt = await nativeFetch();
+      if (txt && txt.length > 300) return txt;
+    } catch (e) {}
+  }
+  for (const p of PROXIES) {
+    try {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 15000);
+      const r = await fetch(p.url(SOURCE_URL), { signal: ctl.signal, cache: 'no-store' });
       clearTimeout(t);
-      if(!r.ok) continue;
-      let txt='';
-      if(p.json){ const j=await r.json(); txt=j.contents||''; } else { txt=await r.text(); }
-      if(txt && txt.length>300) return txt;
-    }catch(e){}
+      if (!r.ok) continue;
+      let txt = '';
+      if (p.json) { const j = await r.json(); txt = j.contents || ''; } else { txt = await r.text(); }
+      if (txt && txt.length > 300) return txt;
+    } catch (e) {}
   }
   throw new Error('network');
 }
@@ -547,15 +559,9 @@ $('saveMap').addEventListener('click',()=>{
   tickNowOut();
   setInterval(tick,1000);
   refresh(false);
-
-  /* === به‌روزرسانی خودکار هر ۵ دقیقه === */
   setInterval(()=>refresh(false), AUTO_REFRESH_MS);
-
-  /* === به‌روزرسانی خودکار با هر بار ورود به برنامه (باز شدن تب، بازگشت از پس‌زمینه در WebView) === */
   document.addEventListener('visibilitychange', ()=>{
-    if(document.visibilityState === 'visible'){
-      refresh(false);
-    }
+    if(document.visibilityState === 'visible'){ refresh(false); }
   });
   window.addEventListener('focus', ()=>refresh(false));
 })();
@@ -647,7 +653,6 @@ function rescheduleSavedReminder(){
   }catch(e){}
 }
 
-/* پر کردن لیست گروه‌ها در کارت یادآوری */
 (function populateReminderCard(){
   const sel = $('nbrSel');
   if(!sel) return;
