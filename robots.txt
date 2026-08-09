@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://9800.github.io/mobarakeh-outage/sitemap.xml
