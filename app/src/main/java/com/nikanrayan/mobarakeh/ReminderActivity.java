@@ -12,7 +12,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.TypedValue;
@@ -27,9 +26,6 @@ public class ReminderActivity extends Activity {
     private MediaPlayer mediaPlayer;
     private Ringtone fallbackRingtone;
     private Vibrator vibrator;
-    private Handler handler = new Handler();
-    private Runnable vibrateRunnable;
-    private boolean isAlertActive = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +89,7 @@ public class ReminderActivity extends Activity {
     }
 
     private void startAlert() {
-        vibrateStrong();
-        vibrateRunnable = () -> {
-            if (isAlertActive) { vibrateStrong(); handler.postDelayed(vibrateRunnable, 2000); }
-        };
-        handler.postDelayed(vibrateRunnable, 500);
+        startVibration();
 
         boolean started = false;
         try {
@@ -123,23 +115,21 @@ public class ReminderActivity extends Activity {
         }
     }
 
+    /* ✅ ویبرهٔ ریتمیکِ بی‌پایان تا زمانی که stopAlert صدا زده شود */
+    private void startVibration() {
+        if (vibrator == null) return;
+        long[] pattern = {0, 600, 300, 600, 300, 600, 1000};
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
+        } else {
+            vibrator.vibrate(pattern, 0);
+        }
+    }
+
     private void stopAlert() {
-        isAlertActive = false;
-        handler.removeCallbacksAndMessages(null);
-        // ✅ توقف فوری ویبرهٔ در حال پخش
         try { if (vibrator != null) vibrator.cancel(); } catch (Exception ignored) {}
         try { if (mediaPlayer != null) { mediaPlayer.stop(); mediaPlayer.release(); mediaPlayer = null; } } catch (Exception ignored) {}
         try { if (fallbackRingtone != null) { fallbackRingtone.stop(); fallbackRingtone = null; } } catch (Exception ignored) {}
-    }
-
-    private void vibrateStrong() {
-        if (vibrator == null) return;
-        long[] pattern = {0, 500, 200, 500, 200, 500};
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1)); // ✅ بدون تکرار بی‌نهایت
-        } else {
-            vibrator.vibrate(pattern, -1);
-        }
     }
 
     @Override
