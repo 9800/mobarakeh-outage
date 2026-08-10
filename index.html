@@ -15,8 +15,9 @@
 <meta property="og:title" content="دانلود برنامه خاموشی برق مبارکه">
 <meta property="og:description" content="اپلیکیشن اندرویدی زمان‌بندی قطع برق و گروه‌های خاموشی شهرستان مبارکه">
 <meta property="og:url" content="#" id="ogUrl">
+<meta property="og:image" content="https://9800.github.io/mobarakeh-outage/screenshots/1.jpg">
 <meta property="og:locale" content="fa_IR">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
@@ -125,6 +126,13 @@ section{padding:52px 0}
 .sub{color:var(--muted);margin:8px 0 24px}
 .sub a{color:var(--accent);font-weight:700}
 
+/* ===== گالری تصاویر برنامه ===== */
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.shot{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);transition:.25s}
+.shot img{width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top;display:block;transition:.35s}
+.shot:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.shot:hover img{transform:scale(1.06)}
+
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:stretch}
 .search{flex:1;min-width:220px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
 .search:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--chip-amber)}
@@ -204,6 +212,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
   .feature,.stat{padding:20px 16px}
   .select{width:100%}
   .badge{font-size:.75rem;padding:5px 12px}
+  .shots{grid-template-columns:repeat(3,1fr);gap:8px}
 }
 @media (max-width:560px){
   .btn-download{width:100%;justify-content:center}
@@ -219,6 +228,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     <ul>
       <li><a href="#groups">گروه‌های خاموشی</a></li>
       <li><a href="#notices">اخبار</a></li>
+      <li><a href="#shots">تصاویر</a></li>
       <li><a href="#features">امکانات</a></li>
       <li><a href="#faq">سوالات متداول</a></li>
       <li><a href="#" data-gh="repo" target="_blank">گیت‌هاب</a></li>
@@ -229,7 +239,6 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
 
 <div class="hero">
   <div class="container">
-    <!-- همیشه فعال + دایره سبز چشمک‌زن + تاریخ روز مشاهده -->
     <span class="badge"><span class="dot green"></span> سامانه فعال است • <span id="todayDate"></span></span>
     <h1>برنامه زمان‌بندی <span class="hl">خاموشی برق مبارکه</span></h1>
     <p class="lead">همین حالا اپلیکیشن اندرویدی «خاموشی برق مبارکه» را دانلود کنید و همیشه زودتر از همه از زمان‌بندی قطع برق و اطلاعیه‌های خاموشی منطقه خود باخبر شوید؛ رایگان، سبک و همیشه در دسترس! 📲</p>
@@ -248,7 +257,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <div class="stat s-amber"><div class="stat-icon si-amber">🗺</div><b class="n-amber"><span id="regionCounter" dir="ltr">+۱</span></b><span>مناطق تحت پوشش</span></div>
       <div class="stat s-green"><div class="stat-icon si-green">📥</div><b class="n-green"><span id="downloadCounter" dir="ltr">+۱</span></b><span>دانلود موفق</span></div>
       <div class="stat s-blue"><div class="stat-icon si-blue">📅</div><b class="n-blue">روزانه</b><span>به‌روزرسانی برنامه</span></div>
-      <div class="stat s-purple"><div class="stat-icon si-purple">🛡</div><b class="n-purple" dir="ltr">٪۱۰۰</b><span>رایگان و امن</span></div>
+      <div class="stat s-purple"><div class="stat-icon si-purple">🛡</div><b class="n-purple" dir="ltr">٪۱۰</b><span>رایگان و امن</span></div>
     </div>
   </div>
 </div>
@@ -275,7 +284,6 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     </div>
   </section>
 
-  <!-- ===== اخبار ===== -->
   <section id="notices">
     <div class="container">
       <h2 class="sec-title">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</h2>
@@ -292,6 +300,22 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       </div>
       <div class="cta">
         <a class="btn btn-ghost" href="https://eitaa.com/epedcmobarake/" target="_blank">📣 مشاهده کانال رسمی در ایتا</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== گالری تصاویر برنامه ===== -->
+  <section id="shots">
+    <div class="container">
+      <h2 class="sec-title">تصاویر برنامه</h2>
+      <p class="sub">نمایی از محیط اپلیکیشن اندرویدی خاموشی برق مبارکه — برای مشاهده تمام‌صفحه، روی هر تصویر بزنید.</p>
+      <div class="shots">
+        <a class="shot" href="screenshots/1.jpg" target="_blank"><img src="screenshots/1.jpg" alt="صفحه اصلی برنامه خاموشی برق مبارکه" loading="lazy"></a>
+        <a class="shot" href="screenshots/2.jpg" target="_blank"><img src="screenshots/2.jpg" alt="گروه‌های خاموشی مبارکه" loading="lazy"></a>
+        <a class="shot" href="screenshots/3.jpg" target="_blank"><img src="screenshots/3.jpg" alt="جست‌وجوی منطقه و خیابان" loading="lazy"></a>
+        <a class="shot" href="screenshots/4.jpg" target="_blank"><img src="screenshots/4.jpg" alt="اطلاعیه‌های خاموشی" loading="lazy"></a>
+        <a class="shot" href="screenshots/5.jpg" target="_blank"><img src="screenshots/5.jpg" alt="تنظیمات برنامه" loading="lazy"></a>
+        <a class="shot" href="screenshots/6.jpg" target="_blank"><img src="screenshots/6.jpg" alt="درباره برنامه" loading="lazy"></a>
       </div>
     </div>
   </section>
@@ -315,7 +339,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <p class="sub">پاسخ به پرسش‌های پرتکرار شهروندان</p>
       <details><summary>برنامه خاموشی برق مبارکه از کجا اعلام می‌شود؟</summary><p>شما می‌توانید با دانلود اپلیکیشن اندرویدی خاموشی برق مبارکه با امکانات کاربردی، از آخرین برنامه خاموشی برق مبارکه مطلع شوید.</p></details>
       <details><summary>چطور گروه خاموشی منطقه خودم را پیدا کنم؟</summary><p>در بخش «گروه‌های خاموشی» نام خیابان، محله یا منطقه خود را جست‌وجو کنید.</p></details>
-      <details><summary>چرا برق منطقه ما قطع شده ولی در جدول نیست؟</summary><p>قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲۱ تماس بگیرید.</p></details>
+      <details><summary>چرا برق منطقه ما قطع شده ولی در جدول نیست؟</summary><p>قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲ تماس بگیرید.</p></details>
       <details><summary>آیا این سامانه رسمی است؟</summary><p>خیر؛ این یک پروژه مستقل و متن‌باز است و صرفاً برای اطلاع‌رسانی راحت‌تر شهروندان ساخته شده است.</p></details>
       <div class="note">⚠️ سلب مسئولیت: این سامانه یک پروژه مستقل است و منبع رسمی اطلاعات، شرکت توزیع نیروی برق شهرستان مبارکه می‌باشد.</div>
     </div>
@@ -380,7 +404,7 @@ var FA = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
 function faNum(n){ return String(n).replace(/\d/g, function(d){ return FA[Number(d)]; }); }
 function norm(s){
   return String(s)
-    .replace(/[۰-۹]/g, function(d){ return '۰۱۳۴۵۷۸۹'.indexOf(d); })
+    .replace(/[۰-۹]/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })
     .replace(/[٠-٩]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
     .replace(/ي/g,'ی').replace(/ك/g,'ک')
     .replace(/\u200c/g,' ')
@@ -500,7 +524,7 @@ function relativeTime(dateStr){
   return '';
 }
 
-/* ===== تلاش خودکار برای دریافت اخبار (در پس‌زمینه) ===== */
+/* ===== تلاش خودکار دریافت اخبار (پس‌زمینه) ===== */
 var newsBox = document.getElementById('newsBox');
 
 function parseEitaa(html){
