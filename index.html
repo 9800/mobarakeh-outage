@@ -260,4 +260,444 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
 <main>
   <section id="groups">
     <div class="container">
-      <h2 class="sec-title">گروه‌های
+      <h2 class="sec-title">گروه‌های خاموشی شهرستان مبارکه</h2>
+      <p class="sub">با جست‌وجوی بخشی از نام خیابان، محله یا منطقه، کل مناطق گروه مربوطه نمایش داده می‌شود؛ یا گروه را مستقیم انتخاب کنید.</p>
+
+      <div class="toolbar">
+        <input class="search" id="search" type="text" placeholder="🔍 جست‌وجو: مثلاً مطهری، نصیرآباد، سعادت، بلوار ولایت…">
+        <select class="select" id="groupFilter" aria-label="انتخاب گروه"></select>
+      </div>
+      <div class="search-info" id="searchInfo"></div>
+
+      <div class="table-wrap">
+        <table id="groupTable">
+          <thead><tr><th style="width:110px">گروه</th><th>مناطق و معابر</th><th style="width:90px">تعداد</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="empty" id="emptyMsg" hidden>😕 نتیجه‌ای پیدا نشد؛ عبارت دیگری را جست‌وجو کنید.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== اخبار با زمان آخرین بروزرسانی ===== -->
+  <section id="notices">
+    <div class="container">
+      <h2 class="sec-title">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</h2>
+      <p class="sub">اخبار مستقیم از <a href="https://eitaa.com/epedcmobarake/" target="_blank">کانال ایتا برق مبارکه</a> دریافت می‌شود.</p>
+      <div class="last-update" id="lastUpdate"><span class="upd-dot"></span> آخرین به‌روزرسانی: <span id="lastUpdateTime">در حال بارگذاری…</span></div>
+      <div style="height:14px"></div>
+      <div class="notices" id="newsBox">
+        <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۰۵:
+ساعت ۱۱ تا ۱۳: گروه ۱۴ و ۲۲
+ساعت ۱۳ تا ۱۵: گروه ۲، ۱۳، ۱۸، ۳۰، ۳۱
+ساعت ۱۵ تا ۱۷: گروه ۱، ۵، ۸، ۱۶، ۲۰، ۲۱
+ساعت ۱۷ تا ۱۹: گروه ۷، ۱۰، ۱۲
+ساعت ۱۹ تا ۲۱: گروه ۴، ۹، ۱۵
+ساعت ۲۱ تا ۲۳: گروه ۸، ۱۱، ۱۷<small>📅 امروز</small></div>
+        <div class="notice">📢 <b>تغییر زمان خاموشی‌های احتمالی</b> — همشهریان عزیز خواهشمندیم به تغییر زمان خاموشی‌های احتمالی از ساعات زوج به ساعات فرد توجه فرمایید.<small>📅 دیروز</small></div>
+        <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅 ۲ روز پیش</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <h2 class="sec-title">چرا این برنامه؟</h2>
+      <p class="sub">دسترسی ساده و سریع به اطلاعات خاموشی برق مبارکه</p>
+      <div class="grid">
+        <div class="feature f-amber"><div class="icon si-amber">⚡</div><h3>دسترسی سریع</h3><p>کاربری راحت، سبک و با حجم فوق‌العاده سبک.</p></div>
+        <div class="feature f-blue"><div class="icon si-blue">📅</div><h3>به‌روزرسانی روزانه</h3><p>برنامه خاموشی هر روز بر اساس اطلاعیه‌های رسمی به‌روز می‌شود.</p></div>
+        <div class="feature f-green"><div class="icon si-green">🗺</div><h3>پوشش کامل مناطق</h3><p>خیابان مطهری – خیابان اباذر غفاری – خیابان مالک اشتر – خیابان ۲۲ بهمن – محله نصیرآباد فاز ۱ – محله نصیرآباد فاز ۲ و...</p></div>
+        <div class="feature f-purple"><div class="icon si-purple">💻</div><h3>متن باز کاملا امن و رایگان</h3><p>کد پروژه در گیت‌هاب منتشر شده و همه می‌توانند مشارکت کنند.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="container">
+      <h2 class="sec-title">سوالات متداول</h2>
+      <p class="sub">پاسخ به پرسش‌های پرتکرار شهروندان</p>
+      <details><summary>برنامه خاموشی برق مبارکه از کجا اعلام می‌شود؟</summary><p>شما می‌توانید با دانلود اپلیکیشن اندرویدی خاموشی برق مبارکه با امکانات کاربردی، از آخرین برنامه خاموشی برق مبارکه مطلع شوید.</p></details>
+      <details><summary>چطور گروه خاموشی منطقه خودم را پیدا کنم؟</summary><p>در بخش «گروه‌های خاموشی» نام خیابان، محله یا منطقه خود را جست‌وجو کنید.</p></details>
+      <details><summary>چرا برق منطقه ما قطع شده ولی در جدول نیست؟</summary><p>قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲۱ تماس بگیرید.</p></details>
+      <details><summary>آیا این سامانه رسمی است؟</summary><p>خیر؛ این یک پروژه مستقل و متن‌باز است و صرفاً برای اطلاع‌رسانی راحت‌تر شهروندان ساخته شده است.</p></details>
+      <div class="note">⚠️ سلب مسئولیت: این سامانه یک پروژه مستقل است و منبع رسمی اطلاعات، شرکت توزیع نیروی برق شهرستان مبارکه می‌باشد.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer">
+    <span>⚡ برنامه خاموشی برق مبارکه — ساخته‌شده با ❤️ برای مردم مبارکه</span>
+    <span><a href="#" data-gh="repo" target="_blank">گیت‌هاب</a> • <a href="https://eitaa.com/epedcmobarake/" target="_blank">کانال ایتا</a> • <a href="https://www.tavanir.org.ir" target="_blank">توانیر</a></span>
+  </div>
+</footer>
+
+<script>
+/* =====================================================
+   ⚙️ تنظیمات
+===================================================== */
+var GH_USER = '9800';
+var GH_REPO = 'mobarakeh-outage';
+var APK_FILE = 'Khamooshi-Bargh-Mobarakeh.apk';
+var EITAA_CHANNEL = 'https://eitaa.com/epedcmobarake/';
+
+var OUTAGE_DATES = ['1405/05/19'];
+
+(function(){
+  var base = 'https://github.com/' + GH_USER + '/' + GH_REPO;
+  document.querySelectorAll('[data-gh="repo"]').forEach(function(a){ a.href = base; a.target = '_blank'; });
+  document.querySelectorAll('[data-gh="download"]').forEach(function(a){ a.href = base + '/releases/latest/download/' + APK_FILE; });
+  var c = document.getElementById('canonicalLink'); if (c) c.href = 'https://' + GH_USER + '.github.io/' + GH_REPO + '/';
+  var og = document.getElementById('ogUrl'); if (og) og.content = 'https://' + GH_USER + '.github.io/' + GH_REPO + '/';
+})();
+
+/* ===== داده گروه‌ها ===== */
+var GROUPS = [
+ {g:1, a:'بلوار خلیج فارس ضلع جنوبی|بلوار معلم|میدان سردار شهید سلیمانی|خیابان سعادت|خیابان خرمشهر|خیابان ولیعصر|بلوار شریعتی|اداره آموزش و پرورش|شورای شهر|خیابان شهید رجایی|خیابان شهدا|خیابان امام خمینی شمالی|خیابان بسیج شمالی|خیابان سلمان|خیابان بهشتی|بلوار نیکبخت تا پل عابر پیاده|بلوار شهید یزدان|خیابان مشتاق|خیابان ۱۷ شهریور|انشعاب کشاورزی جنب پل رودخانه‌شور|بلوار ولایت|خیابان شهید کریمیان|درمانگاه سینا|خیابان شهدای جعفرزاده'},
+ {g:2, a:'ضلع شمال بلوار شریعتی|بلوار ۱۵ خرداد|خیابان باهنر|خیابان شهید مصطفی خمینی|صفاییه محله ۷ و ۸|بلوار محتشم|بلوار الزهرا|سازمان تامین اجتماعی|دادگستری|تربیت بدنی و استخر ابوذر|مجموعه سایت اداری شهرستان|اداره آب|اداره برق|اداره ثبت احوال|اداره ثبت اسناد|اداره مسکن و شهرسازی|اداره کار و امور اجتماعی|کمیته امداد|فرمانداری|اداره کار|بنیاد مسکن|منابع طبیعی|بانک ملی شعبه خلیج فارس|چاه آب فلمن|خیابان آیت‌الله طالقانی|محله سرارود|اداره پست|کوی سجاد'},
+ {g:3, a:'بیمارستان محمد رسول‌الله'},
+ {g:4, a:'کرکوند|حسن آباد بیدگان|خیرآباد|سیاهبوم|سورچه پایین|سورچه بالا|جاده فولاد درب زرین شهر|شرکت ایثارگران|راه آهن حسن آباد'},
+ {g:5, a:'صفاییه محله ۴ و ۵|بلوار پرستار|کلانتری ۱۱|دهنو|درچه|وینیچه|دیزیچه خیابان عمان سامانی|قسمتی از محله ۸ صفاییه|خیابان انتظام|اداره آبفا|دانشگاه آزاد اسلامی مبارکه|مسکن مهر شهر دیزیچه|انشعاب‌های برق دهنو|بلوار شهید ربیعی ضلع شمال|ویلاهای شهرداری پارک سرارود'},
+ {g:7, a:'صفاییه محله ۱|صفاییه محله ۲|صفاییه محله ۴|صفاییه محله ۹|صفاییه محله ۱۰|روستای بداغ آباد|محله آسیاب آباد'},
+ {g:8, a:'خیابان سلمان از چهارراه بازار تا بلوار فتح المبین|خیابان فردوسی|خیابان رسالت|بلوار فتح المبین|خیابان بسیج جنوبی|خیابان حافظ شرقی و غربی|خیابان امام خمینی جنوبی|خیابان مطهری|خیابان اباذر غفاری|خیابان مالک اشتر|خیابان ۲۲ بهمن|محله نصیرآباد فاز ۱|محله نصیرآباد فاز ۲|محله نصیرآباد فاز ۳|اداره سازمان فنی و حرفه‌ای|بلوار جانبازان|خیابان بوعلی|خیابان مبارزان|هلال احمر مبارکه|اداره گاز|استخر اسپینر|جایگاه گاز CNG|خانه معلم مبارکه'},
+ {g:9, a:'انشعاب نوروزی|قلعه حکیم|انشعاب صفیری|انشعاب کدخدایی|پرورش ماهی هیرمن پور|جنب جاده فولاد درب مبارکه|انشعاب کشاورزی جنب شرکت توکا|انشعاب کشاورزی چغاجوش|ابراهیم آباد|هیرمندپور|کشتارگاه هامون|پرورش ماهی رئیسی'},
+ {g:10, a:'انشعاب کشاورزی سرخال|محمدآباد قهنویه|محلات قهنویه و صادقیه|پمپ بنزین ایرانپور|خیابان شهید ضیایی‌ها|خیابان سعدی'},
+ {g:11, a:'منطقه کارگاهی خیام، دانشگاه آزاد، پایانه باربری|بلوار خیام|شرکت تامکو|کشتارگاه صنعتی|پارک شهدای زینلی|منطقه کارگاهی امیرکبیر|جاده لاله‌های آزادی|پارک گل نرگس|شرکت پگاه|پارکینگ نیروی انتظامی|شرکت بازیافت|پایانه باربری شهرستان مبارکه'},
+ {g:12, a:'منطقه کارگاهی جنب میدان امیرکبیر'},
+ {g:13, a:'خولنجان|لنج|جاده سد نکوآباد|محله نکوآباد|حسن آباد قلعه بزی|مزرعچه|شرکت سخت بتن|پمپ بنزین علی‌ابن‌موسی‌الرضا|تصفیه خانه فاضلاب'},
+ {g:14, a:'زیباشهر بلوار نسوز|آتش نشانی زیباشهر|شهرداری زیباشهر|بلوار امام خمینی زیباشهر|بخشداری گرکن جنوبی|قسمتی از خولنجان|آدرگان|روستای احمدآباد|روستای فخرآباد|روستای جوشان|روستای هراتمه|روستای زودان|انشعاب ساتان|اراضی کشاورزی سمت راست جاده مبارکه اصفهان از مبارکه تا قبل از جاده صنایع هفتم تیر|پادگان امام علی (ع)|خیابان شهدای محراب'},
+ {g:15, a:'انشعاب اباذری|روستای باغملک و مناطق کشاورزی|روستای کوشکیچه و مناطق کشاورزی|روستای قرق احمدآباد و مناطق کشاورزی|روستای بارچان دستگرد و مناطق کشاورزی|روستای دستگرد مهرآوران و مناطق کشاورزی'},
+ {g:16, a:'شرکت نسوز|روستای اراضی|دامداری شاه علایی|روستای اکبرآباد|روستای میرآباد و بروزاد'},
+ {g:17, a:'شهر دیزیچه|محله سجادیه|محله محمدیه|محله اسماعیل ترخان|تالار سعیدی|پایانه مسافربری مبارکه|اداره جهاد کشاورزی|جایگاه CNG'},
+ {g:18, a:'نهچیر|جاده مبارکه طالخونچه|شهر طالخونچه|انشعاب صنعتی فولاد علی|معدن شن سپاهان|جاده مبارکه بروجن'},
+ {g:19, a:'لرد طالخونچه و اراضی کشاورزی سینه کشی طالخونچه'},
+ {g:20, a:'جاده مجلسی بروجن|شرکت کیان اکسیر تجارت|بلوار شهید سردار سلیمانی|گلخانه تولید بذر دانشگاه آزاد|محله گلستان مجلسی|خیابان‌های سرور|بنفشه بازارچه گلستان|آفتاب|خیابان کیوان|بلوار ولایت|آتش نشانی|کلانتری ۱۵|پارکینگ شهرداری|روستای قلعه سفید|روستای لاو|روستای آبرو|روستای حوض ماهی|روستای قمیشلو|منطقه کشاورزی کرد بچه|گلخانه محسنی'},
+ {g:21, a:'شهر مجلسی: مسکن مهر|دانشگاه آزاد|بلوار دانشجو، سهیل|میدان شورا|بلوار فجر|بلوار شهید آبرو، محله سپهر|محله دانش|محله هنر|محله فرهنگ|بلوار ارم|میدان کوثر|شهرداری مجلسی|شرکت عمران|مسجد جامع|بلوار معلم|محله ناجا|محله بنیاد مسکن|بلوار کوشش|پارک ارم'},
+ {g:22, a:'شهر دهسرخ|جاده شرکت کشت و دام فضیل|انشعاب ۵۴|وزیرآباد'},
+ {g:23, a:'کارخانه چینی زرین|زندان اسدآباد|قسمتی از روستای جوهرستان'},
+ {g:27, a:'شهرک صنعتی دهسرخ|اراضی کشاورزی سمت راست جاده مبارکه اصفهان از دهسرخ تا ویلادره|ویلادره|روبروی شهرک صنعتی مبارکه|انشعاب هفتم تیر|معدن شن فجر|پلیس راه اصفهان شیراز|منطقه دشت سبز|پمپ بنزین رز آبی'},
+ {g:30, a:'منطقه کشاورزی قرق خمسه|روستای اسدآباد|روستای جوهرستان|روستای بروزاد|روستای میرآباد'},
+ {g:31, a:'سه راهی پلی اکریل|اراضی کشاورزی پشت دهسرخ|انشعاب ایستگاه مخابراتی|منطقه کشاورزی پشت آبرسانی|انشعاب امید فردا و عالیفر'}
+];
+
+/* ===== ابزارها ===== */
+var FA = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function faNum(n){ return String(n).replace(/\d/g, function(d){ return FA[Number(d)]; }); }
+function norm(s){
+  return String(s)
+    .replace(/[۰-۹]/g, function(d){ return '۰۱۳۴۵۷۸۹'.indexOf(d); })
+    .replace(/[٠-٩]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
+    .replace(/ي/g,'ی').replace(/ك/g,'ک')
+    .replace(/\u200c/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ===== وضعیت سامانه ===== */
+var newsHasOutage = false;
+function todayShamsi(){
+  var parts = new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  var o = {};
+  parts.forEach(function(p){ o[p.type] = p.value; });
+  return norm(o.year + '/' + o.month + '/' + o.day);
+}
+function updateStatus(){
+  var active = OUTAGE_DATES.map(norm).indexOf(todayShamsi()) !== -1 || newsHasOutage;
+  document.getElementById('statusText').textContent = active ? 'سامانه فعال است' : 'سامانه غیرفعال است';
+  document.getElementById('statusDot').className = 'dot ' + (active ? 'green' : 'red');
+}
+
+/* ===== جدول گروه‌ها ===== */
+var tbody = document.querySelector('#groupTable tbody');
+var rowsMeta = [];
+GROUPS.forEach(function(gr){
+  var seen = {}, chips = [];
+  var tr = document.createElement('tr');
+  tr.style.display = 'none';
+
+  var td1 = document.createElement('td');
+  td1.innerHTML = '<span class="grp-badge">گروه ' + faNum(gr.g) + '</span>';
+
+  var td2 = document.createElement('td');
+  var wrap = document.createElement('div'); wrap.className = 'chips';
+  gr.a.split('|').forEach(function(raw){
+    var clean = raw.replace(/^مبارکه[:\s]+/,'').trim();
+    var key = norm(clean);
+    if (!clean || seen[key]) return;
+    seen[key] = 1;
+    var sp = document.createElement('span');
+    sp.className = 'chip'; sp.textContent = clean;
+    wrap.appendChild(sp);
+    chips.push({ el: sp, txt: key });
+  });
+  td2.appendChild(wrap);
+
+  var td3 = document.createElement('td');
+  td3.className = 'cnt';
+  td3.textContent = faNum(chips.length) + ' محل';
+
+  tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+  tbody.appendChild(tr);
+  rowsMeta.push({ id: gr.g, tr: tr, chips: chips, label: norm('گروه ' + gr.g) });
+});
+
+var groupFilter = document.getElementById('groupFilter');
+groupFilter.innerHTML = '<option value="">انتخاب گروه…</option>' + GROUPS.map(function(g){
+  return '<option value="' + g.g + '">گروه ' + faNum(g.g) + '</option>';
+}).join('');
+
+var search = document.getElementById('search');
+var info = document.getElementById('searchInfo');
+var emptyMsg = document.getElementById('emptyMsg');
+
+function applyFilter(){
+  var q = norm(search.value);
+  var gf = groupFilter.value;
+  var gCount = 0, aCount = 0, any = false;
+
+  rowsMeta.forEach(function(rm){
+    var visible = false;
+    if (q){
+      var labelMatch = rm.label.indexOf(q) !== -1 || String(rm.id).indexOf(q) !== -1;
+      var hits = 0;
+      rm.chips.forEach(function(c){
+        if (labelMatch){ c.el.className = 'chip'; hits++; }
+        else if (c.txt.indexOf(q) !== -1){ c.el.className = 'chip hit'; hits++; }
+        else { c.el.className = 'chip dim'; }
+      });
+      if (labelMatch){ visible = true; aCount += rm.chips.length; }
+      else if (hits > 0){ visible = true; aCount += hits; }
+    } else if (gf && String(rm.id) === gf){
+      visible = true;
+      aCount = rm.chips.length;
+      rm.chips.forEach(function(c){ c.el.className = 'chip'; });
+    } else {
+      rm.chips.forEach(function(c){ c.el.className = 'chip'; });
+    }
+    rm.tr.style.display = visible ? '' : 'none';
+    if (visible){ gCount++; any = true; }
+  });
+
+  if (q){
+    emptyMsg.hidden = any;
+    info.innerHTML = any
+      ? '<b>' + faNum(gCount) + '</b> گروه و <b>' + faNum(aCount) + '</b> محل با جست‌وجوی شما مطابقت دارد'
+      : '';
+  } else if (gf){
+    emptyMsg.hidden = true;
+    info.innerHTML = 'گروه <b>' + faNum(gf) + '</b> — نمایش <b>' + faNum(aCount) + '</b> محل';
+  } else {
+    emptyMsg.hidden = true;
+    info.innerHTML = 'یک گروه را انتخاب کنید یا بخشی از نام خیابان/محله را بنویسید تا مناطق نمایش داده شود.';
+  }
+}
+search.addEventListener('input', applyFilter);
+groupFilter.addEventListener('change', function(){ search.value=''; applyFilter(); });
+applyFilter();
+
+/* ===== محاسبه زمان نسبی (امروز، دیروز، ...) ===== */
+function relativeTime(dateStr){
+  if (!dateStr) return '';
+  // تلاش برای تبدیل تاریخ شمسی به میلادی ساده (تخمین روزها از امروز)
+  var now = new Date();
+  var nowYMD = new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+  var nO = {}; nowYMD.forEach(function(p){ nO[p.type] = parseInt(p.value, 10); });
+  
+  // تلاش برای تشخیص عدد روز از متن (مثلاً «۱۸ مرداد» یا «۱۷ مرداد»)
+  var m = dateStr.match(/(\d+)\s*(فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند)/);
+  if (m){
+    var months = {'فروردین':1,'اردیبهشت':2,'خرداد':3,'تیر':4,'مرداد':5,'شهریور':6,'مهر':7,'آبان':8,'آذر':9,'دی':10,'بهمن':11,'اسفند':12};
+    var d = parseInt(m[1], 10);
+    var mo = months[m[2]] || 0;
+    if (mo === nO.month || (mo === 0)){
+      var diff = nO.day - d;
+      if (diff === 0) return 'امروز';
+      if (diff === 1) return 'دیروز';
+      if (diff === 2) return '۲ روز پیش';
+      if (diff === 3) return '۳ روز پیش';
+      if (diff > 0 && diff < 7) return faNum(diff) + ' روز پیش';
+      if (diff >= 7) return faNum(Math.floor(diff/7)) + ' هفته پیش';
+    }
+  }
+  return '';
+}
+
+/* ===== اتصال چندلایه به ایتا ===== */
+var lastUpdateEl = document.getElementById('lastUpdateTime');
+var newsBox = document.getElementById('newsBox');
+var cachedNewsHTML = newsBox.innerHTML; // ذخیره اخبار پیش‌فرض
+
+function parseEitaa(html){
+  // ایتا از کلاس‌های مخصوص تلگرام استفاده می‌کنه
+  var doc = new DOMParser().parseFromString(html, 'text/html');
+  var results = [];
+  
+  // راه‌های مختلف برای پیدا کردن پست‌ها در ایتا
+  var msgs = doc.querySelectorAll('.tm-message, .tgme_widget_message_wrap, .message, [data-post], .tgme_channel_history .message');
+  if (!msgs.length){
+    // جست‌وجو برای ساختار خاص ایتا
+    msgs = doc.querySelectorAll('body > div > div > div');
+  }
+  
+  msgs.forEach(function(m){
+    var textEl = m.querySelector('.tm_message_text, .tgme_widget_message_text, .message_text, [class*="message"]');
+    if (!textEl) textEl = m;
+    var text = (textEl.textContent || '').trim().replace(/\s+/g, ' ');
+    
+    // پیدا کردن تاریخ
+    var timeEl = m.querySelector('time, .time, [datetime], .message_date, .tm_date');
+    var date = '';
+    if (timeEl){
+      date = timeEl.getAttribute('datetime') || timeEl.textContent || '';
+    } else {
+      // تاریخ در خود متن
+      var dm = text.match(/(\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
+      if (dm) date = dm[1];
+    }
+    
+    if (text && text.length > 20 && text.length < 2000){
+      results.push({ text: text, date: date });
+    }
+  });
+  
+  // اگر هیچی پیدا نشد، کل متن رو به عنوان یک پست بگیر
+  if (!results.length){
+    var body = doc.body ? doc.body.textContent : '';
+    body = body.replace(/\s+/g, ' ').trim();
+    if (body.length > 50){
+      var lines = body.split(/(?=\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
+      lines.forEach(function(line){
+        line = line.trim();
+        if (line.length > 20 && line.length < 2000){
+          var dm = line.match(/(\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
+          results.push({ text: line, date: dm ? dm[1] : '' });
+        }
+      });
+    }
+  }
+  
+  return results.slice(-5).reverse(); // آخرین ۵ پست
+}
+
+function renderNews(items){
+  if (!items.length) return false;
+  newsBox.innerHTML = items.map(function(item){
+    var t = item.text;
+    if (t.length > 500) t = t.slice(0, 500) + '…';
+    var rel = relativeTime(item.date);
+    var timeLabel = rel ? '📅 ' + rel : '📅 کانال ایتا';
+    var icon = /خاموشی|قطعی|قطع برق|محدودیت/.test(t) ? '🟡' : /توصیه|صرفه|پویش/.test(t) ? '⚡' : '📢';
+    return '<div class="notice">' + icon + ' <b>' + esc(t) + '</b><small>' + timeLabel + '</small></div>';
+  }).join('');
+  newsHasOutage = items.some(function(i){ return /خاموشی|قطعی|قطع برق|محدودیت/.test(i.text); });
+  updateStatus();
+  return true;
+}
+
+function updateLastTime(){
+  var now = new Date();
+  lastUpdateEl.textContent = new Intl.DateTimeFormat('fa-IR',{
+    hour:'2-digit', minute:'2-digit', 
+    day:'numeric', month:'long'
+  }).format(now);
+}
+
+function tryFetch(urls, idx){
+  if (idx >= urls.length){
+    // همه روش‌ها شکست خوردن → اخبار پیش‌فرض باقی بمونه
+    updateLastTime();
+    return;
+  }
+  var ctrl = ('AbortController' in window) ? new AbortController() : null;
+  var to = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 8000);
+  
+  fetch(urls[idx], ctrl ? {signal: ctrl.signal, mode: 'cors'} : {mode: 'cors'})
+    .then(function(r){
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.text();
+    })
+    .then(function(text){
+      clearTimeout(to);
+      var items = parseEitaa(text);
+      if (renderNews(items)){
+        updateLastTime();
+      } else {
+        // پارس موفق نبود، روش بعدی
+        tryFetch(urls, idx + 1);
+      }
+    })
+    .catch(function(){
+      clearTimeout(to);
+      tryFetch(urls, idx + 1);
+    });
+}
+
+function loadNews(){
+  var base = EITAA_CHANNEL.replace(/\/$/, '');
+  var urls = [
+    // RSS مستقیم ایتا (معمولاً CORS نداره)
+    base + '/feed',
+    // پروکسی‌های معتبر جهانی
+    'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(EITAA_CHANNEL),
+    'https://api.allorigins.win/raw?url=' + encodeURIComponent(EITAA_CHANNEL),
+    'https://corsproxy.io/?' + encodeURIComponent(EITAA_CHANNEL),
+    // اتصال مستقیم
+    EITAA_CHANNEL
+  ];
+  tryFetch(urls, 0);
+}
+
+loadNews();
+setInterval(loadNews, 30 * 60 * 1000); // هر ۳۰ دقیقه
+
+/* ===== تاریخ، تم، شمارنده‌ها ===== */
+document.getElementById('todayDate').textContent =
+  new Intl.DateTimeFormat('fa-IR',{weekday:'long', day:'numeric', month:'long', year:'numeric'}).format(new Date());
+updateStatus();
+
+var btn = document.getElementById('themeToggle');
+function setIcon(){ btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
+btn.addEventListener('click', function(){
+  var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  setIcon();
+});
+setIcon();
+
+function countUp(el, target){
+  if (!el || !isFinite(target) || target < 1) target = 1;
+  var dur = 1400, t0 = performance.now();
+  function tick(t){
+    var p = Math.min((t - t0) / dur, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    var v = Math.max(1, Math.round(target * eased));
+    el.textContent = '+' + faNum(v);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+var dlTarget;
+try{
+  var stored = parseInt(localStorage.getItem('dlCount') || '358', 10);
+  dlTarget = (isNaN(stored) ? 358 : stored) + 5;
+  localStorage.setItem('dlCount', String(dlTarget));
+}catch(e){ dlTarget = 363; }
+
+var started = false;
+function startCounters(){
+  if (started) return; started = true;
+  countUp(document.getElementById('regionCounter'), 200);
+  countUp(document.getElementById('downloadCounter'), dlTarget);
+}
+if ('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(en){
+    if (en[0].isIntersecting){ startCounters(); io.disconnect(); }
+  }, {threshold:.3});
+  io.observe(document.getElementById('stats'));
+} else { startCounters(); }
+</script>
+</body>
+</html>
