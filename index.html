@@ -100,7 +100,6 @@ h1 .hl{color:var(--accent)}
 .btn-ghost{border:1px solid var(--line);background:var(--card)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ===== کارت‌های آمار با استایل کارت‌های امکانات ===== */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:46px}
 .stat{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;
   padding:26px 22px;transition:.25s;overflow:hidden;text-align:center}
@@ -128,6 +127,15 @@ section{padding:52px 0}
 .sub a{color:var(--accent);font-weight:700}
 .last-update{display:inline-flex;align-items:center;gap:8px;background:var(--chip-amber);color:var(--amber);padding:4px 12px;border-radius:999px;font-size:.78rem;font-weight:600;margin-top:8px}
 .last-update .upd-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:blink 1.1s infinite}
+
+/* ===== تب‌های اخبار + نمایش زنده ===== */
+.news-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:9px 18px;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;transition:.2s}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--chip-amber);border-color:var(--amber);color:var(--amber)}
+.live-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.live-wrap iframe{width:100%;height:640px;border:none;display:block;background:#fff}
+.live-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
 
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:stretch}
 .search{flex:1;min-width:220px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
@@ -208,6 +216,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
   .feature,.stat{padding:20px 16px}
   .select{width:100%}
   .badge{font-size:.75rem;padding:5px 12px}
+  .live-wrap iframe{height:480px}
 }
 @media (max-width:560px){
   .btn-download{width:100%;justify-content:center}
@@ -247,7 +256,6 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <a class="btn btn-ghost" href="#groups">مشاهده گروه‌های خاموشی</a>
     </div>
 
-    <!-- ===== کارت‌های آمار (طراحی عین کارت‌های امکانات) ===== -->
     <div class="stats" id="stats">
       <div class="stat s-amber"><div class="stat-icon si-amber">🗺</div><b class="n-amber"><span id="regionCounter" dir="ltr">+۱</span></b><span>مناطق تحت پوشش</span></div>
       <div class="stat s-green"><div class="stat-icon si-green">📥</div><b class="n-green"><span id="downloadCounter" dir="ltr">+۱</span></b><span>دانلود موفق</span></div>
@@ -279,23 +287,38 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     </div>
   </section>
 
-  <!-- ===== اخبار با زمان آخرین بروزرسانی ===== -->
+  <!-- ===== اخبار: خلاصه + نمایش زنده با نت بازدیدکننده ===== -->
   <section id="notices">
     <div class="container">
       <h2 class="sec-title">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</h2>
       <p class="sub">اخبار مستقیم از <a href="https://eitaa.com/epedcmobarake/" target="_blank">کانال ایتا برق مبارکه</a> دریافت می‌شود.</p>
+
+      <div class="news-tabs">
+        <button class="tab-btn active" id="tabCards" type="button">📰 خلاصه اخبار</button>
+        <button class="tab-btn" id="tabLive" type="button">📡 نمایش زنده کانال</button>
+      </div>
+
       <div class="last-update" id="lastUpdate"><span class="upd-dot"></span> آخرین به‌روزرسانی: <span id="lastUpdateTime">در حال بارگذاری…</span></div>
       <div style="height:14px"></div>
+
       <div class="notices" id="newsBox">
         <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۰۵:
-ساعت ۱۱ تا ۱۳: گروه ۱۴ و ۲۲
-ساعت ۱۳ تا ۱۵: گروه ۲، ۱۳، ۱۸، ۳۰، ۳۱
+ساعت ۱۱ تا ۳: گروه ۱۴ و ۲۲
+ساعت ۱۳ تا ۱۵: گروه ۲، ۱۳، ۸، ۳، ۳۱
 ساعت ۱۵ تا ۱۷: گروه ۱، ۵، ۸، ۱۶، ۲۰، ۲۱
-ساعت ۱۷ تا ۱۹: گروه ۷، ۱۰، ۱۲
-ساعت ۱۹ تا ۲۱: گروه ۴، ۹، ۱۵
-ساعت ۲۱ تا ۲۳: گروه ۸، ۱۱، ۱۷<small>📅 امروز</small></div>
+ساعت ۱۷ تا ۱۹: گروه ۷، ۱۰، ۲
+ساعت ۹ تا ۲: گروه ۴، ۹، ۱۵
+ساعت ۲۱ تا ۲۳: گروه ۸، ۱۱، ۷<small>📅 امروز</small></div>
         <div class="notice">📢 <b>تغییر زمان خاموشی‌های احتمالی</b> — همشهریان عزیز خواهشمندیم به تغییر زمان خاموشی‌های احتمالی از ساعات زوج به ساعات فرد توجه فرمایید.<small>📅 دیروز</small></div>
-        <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅 ۲ روز پیش</small></div>
+        <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅  روز پیش</small></div>
+      </div>
+
+      <div class="live-wrap" id="liveWrap" hidden>
+        <iframe id="eitaaFrame" src="about:blank" title="کانال ایتا برق مبارکه — نمایش زنده" loading="lazy"></iframe>
+        <div class="live-bar">
+          <span>☝️ این بخش به‌صورت زنده و مستقیم با اینترنت خودِ شما از کانال ایتا بارگذاری می‌شود.</span>
+          <button class="tab-btn" id="frameReload" type="button">🔄 بارگذاری مجدد</button>
+        </div>
       </div>
     </div>
   </section>
@@ -497,88 +520,65 @@ search.addEventListener('input', applyFilter);
 groupFilter.addEventListener('change', function(){ search.value=''; applyFilter(); });
 applyFilter();
 
-/* ===== محاسبه زمان نسبی (امروز، دیروز، ...) ===== */
+/* ===== تب‌های اخبار: خلاصه / نمایش زنده ===== */
+var tabCards = document.getElementById('tabCards');
+var tabLive = document.getElementById('tabLive');
+var newsBox = document.getElementById('newsBox');
+var liveWrap = document.getElementById('liveWrap');
+var frame = document.getElementById('eitaaFrame');
+var frameLoaded = false;
+
+function showLive(){
+  tabLive.classList.add('active'); tabCards.classList.remove('active');
+  newsBox.hidden = true; liveWrap.hidden = false;
+  if (!frameLoaded){ frame.src = EITAA_CHANNEL; frameLoaded = true; }
+}
+function showCards(){
+  tabCards.classList.add('active'); tabLive.classList.remove('active');
+  liveWrap.hidden = true; newsBox.hidden = false;
+}
+tabLive.addEventListener('click', showLive);
+tabCards.addEventListener('click', showCards);
+document.getElementById('frameReload').addEventListener('click', function(){
+  frame.src = EITAA_CHANNEL + '?r=' + Date.now();
+});
+
+/* ===== زمان نسبی خبر ===== */
 function relativeTime(dateStr){
   if (!dateStr) return '';
-  // تلاش برای تبدیل تاریخ شمسی به میلادی ساده (تخمین روزها از امروز)
-  var now = new Date();
-  var nowYMD = new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+  var nowYMD = new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
   var nO = {}; nowYMD.forEach(function(p){ nO[p.type] = parseInt(p.value, 10); });
-  
-  // تلاش برای تشخیص عدد روز از متن (مثلاً «۱۸ مرداد» یا «۱۷ مرداد»)
-  var m = dateStr.match(/(\d+)\s*(فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند)/);
+  var m = dateStr.match(/([۰-۹0-9]+)\s*(فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند)/);
   if (m){
     var months = {'فروردین':1,'اردیبهشت':2,'خرداد':3,'تیر':4,'مرداد':5,'شهریور':6,'مهر':7,'آبان':8,'آذر':9,'دی':10,'بهمن':11,'اسفند':12};
-    var d = parseInt(m[1], 10);
+    var d = parseInt(norm(m[1]), 10);
     var mo = months[m[2]] || 0;
-    if (mo === nO.month || (mo === 0)){
+    if (mo === nO.month){
       var diff = nO.day - d;
       if (diff === 0) return 'امروز';
       if (diff === 1) return 'دیروز';
       if (diff === 2) return '۲ روز پیش';
       if (diff === 3) return '۳ روز پیش';
-      if (diff > 0 && diff < 7) return faNum(diff) + ' روز پیش';
+      if (diff > 3 && diff < 7) return faNum(diff) + ' روز پیش';
       if (diff >= 7) return faNum(Math.floor(diff/7)) + ' هفته پیش';
     }
   }
   return '';
 }
 
-/* ===== اتصال چندلایه به ایتا ===== */
+/* ===== دریافت اخبار (تلاش چندلایه) ===== */
 var lastUpdateEl = document.getElementById('lastUpdateTime');
-var newsBox = document.getElementById('newsBox');
-var cachedNewsHTML = newsBox.innerHTML; // ذخیره اخبار پیش‌فرض
 
 function parseEitaa(html){
-  // ایتا از کلاس‌های مخصوص تلگرام استفاده می‌کنه
   var doc = new DOMParser().parseFromString(html, 'text/html');
   var results = [];
-  
-  // راه‌های مختلف برای پیدا کردن پست‌ها در ایتا
-  var msgs = doc.querySelectorAll('.tm-message, .tgme_widget_message_wrap, .message, [data-post], .tgme_channel_history .message');
-  if (!msgs.length){
-    // جست‌وجو برای ساختار خاص ایتا
-    msgs = doc.querySelectorAll('body > div > div > div');
-  }
-  
+  var msgs = doc.querySelectorAll('[class*="message_text"], [class*="post_text"], .tgme_widget_message_text');
   msgs.forEach(function(m){
-    var textEl = m.querySelector('.tm_message_text, .tgme_widget_message_text, .message_text, [class*="message"]');
-    if (!textEl) textEl = m;
-    var text = (textEl.textContent || '').trim().replace(/\s+/g, ' ');
-    
-    // پیدا کردن تاریخ
-    var timeEl = m.querySelector('time, .time, [datetime], .message_date, .tm_date');
-    var date = '';
-    if (timeEl){
-      date = timeEl.getAttribute('datetime') || timeEl.textContent || '';
-    } else {
-      // تاریخ در خود متن
-      var dm = text.match(/(\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
-      if (dm) date = dm[1];
-    }
-    
-    if (text && text.length > 20 && text.length < 2000){
-      results.push({ text: text, date: date });
-    }
+    var text = (m.textContent || '').trim().replace(/\s+/g,' ');
+    var dm = text.match(/(\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
+    if (text.length > 20 && text.length < 2000) results.push({ text: text, date: dm ? dm[1] : '' });
   });
-  
-  // اگر هیچی پیدا نشد، کل متن رو به عنوان یک پست بگیر
-  if (!results.length){
-    var body = doc.body ? doc.body.textContent : '';
-    body = body.replace(/\s+/g, ' ').trim();
-    if (body.length > 50){
-      var lines = body.split(/(?=\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
-      lines.forEach(function(line){
-        line = line.trim();
-        if (line.length > 20 && line.length < 2000){
-          var dm = line.match(/(\d+\s*(?:فروردین|اردیبهشت|خرداد|تیر|مرداد|شهریور|مهر|آبان|آذر|دی|بهمن|اسفند))/);
-          results.push({ text: line, date: dm ? dm[1] : '' });
-        }
-      });
-    }
-  }
-  
-  return results.slice(-5).reverse(); // آخرین ۵ پست
+  return results.slice(-5).reverse();
 }
 
 function renderNews(items){
@@ -597,60 +597,34 @@ function renderNews(items){
 }
 
 function updateLastTime(){
-  var now = new Date();
-  lastUpdateEl.textContent = new Intl.DateTimeFormat('fa-IR',{
-    hour:'2-digit', minute:'2-digit', 
-    day:'numeric', month:'long'
-  }).format(now);
+  lastUpdateEl.textContent = new Intl.DateTimeFormat('fa-IR',{hour:'2-digit', minute:'2-digit', day:'numeric', month:'long'}).format(new Date());
 }
 
 function tryFetch(urls, idx){
-  if (idx >= urls.length){
-    // همه روش‌ها شکست خوردن → اخبار پیش‌فرض باقی بمونه
-    updateLastTime();
-    return;
-  }
+  if (idx >= urls.length){ updateLastTime(); return; }
   var ctrl = ('AbortController' in window) ? new AbortController() : null;
   var to = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 8000);
-  
-  fetch(urls[idx], ctrl ? {signal: ctrl.signal, mode: 'cors'} : {mode: 'cors'})
-    .then(function(r){
-      if (!r.ok) throw new Error('http ' + r.status);
-      return r.text();
-    })
+  fetch(urls[idx], ctrl ? {signal: ctrl.signal} : {})
+    .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); return r.text(); })
     .then(function(text){
       clearTimeout(to);
-      var items = parseEitaa(text);
-      if (renderNews(items)){
-        updateLastTime();
-      } else {
-        // پارس موفق نبود، روش بعدی
-        tryFetch(urls, idx + 1);
-      }
+      if (!renderNews(parseEitaa(text))) tryFetch(urls, idx + 1);
+      else updateLastTime();
     })
-    .catch(function(){
-      clearTimeout(to);
-      tryFetch(urls, idx + 1);
-    });
+    .catch(function(){ clearTimeout(to); tryFetch(urls, idx + 1); });
 }
 
 function loadNews(){
   var base = EITAA_CHANNEL.replace(/\/$/, '');
-  var urls = [
-    // RSS مستقیم ایتا (معمولاً CORS نداره)
+  tryFetch([
     base + '/feed',
-    // پروکسی‌های معتبر جهانی
     'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(EITAA_CHANNEL),
     'https://api.allorigins.win/raw?url=' + encodeURIComponent(EITAA_CHANNEL),
-    'https://corsproxy.io/?' + encodeURIComponent(EITAA_CHANNEL),
-    // اتصال مستقیم
     EITAA_CHANNEL
-  ];
-  tryFetch(urls, 0);
+  ], 0);
 }
-
 loadNews();
-setInterval(loadNews, 30 * 60 * 1000); // هر ۳۰ دقیقه
+setInterval(loadNews, 30 * 60 * 1000);
 
 /* ===== تاریخ، تم، شمارنده‌ها ===== */
 document.getElementById('todayDate').textContent =
