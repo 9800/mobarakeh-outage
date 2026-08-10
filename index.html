@@ -28,7 +28,7 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"برنامه خاموشی برق مبارکه از کجا اعلام می‌شود؟","acceptedAnswer":{"@type":"Answer","text":"شما می‌توانید با دانلود اپلیکیشن اندرویدی خاموشی برق مبارکه از آخرین برنامه خاموشی برق مبارکه مطلع شوید."}},
 {"@type":"Question","name":"چطور گروه خاموشی منطقه خودم را پیدا کنم؟","acceptedAnswer":{"@type":"Answer","text":"در بخش گروه‌های خاموشی، نام خیابان، محله یا منطقه خود را جست‌وجو کنید."}},
-{"@type":"Question","name":"چرا برق منطقه ما قطع شده ولی در جدول نیست؟","acceptedAnswer":{"@type":"Answer","text":"قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲ تماس بگیرید."}},
+{"@type":"Question","name":"چرا برق منطقه ما قطع شده ولی در جدول نیست؟","acceptedAnswer":{"@type":"Answer","text":"قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲۱ تماس بگیرید."}},
 {"@type":"Question","name":"آیا این سامانه رسمی است؟","acceptedAnswer":{"@type":"Answer","text":"خیر؛ این یک پروژه مستقل و متن‌باز است."}}
 ]}
 </script>
@@ -100,6 +100,34 @@ h1 .hl{color:var(--accent)}
 .btn-ghost{border:1px solid var(--line);background:var(--card)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 
+/* ===== اسلایدر تصاویر برنامه ===== */
+.shots-title{margin:30px 0 12px;color:var(--muted);font-size:.92rem;font-weight:700}
+.slider-outer{position:relative;margin:0 auto;max-width:760px;padding:0 8px}
+.slider{overflow:hidden;border-radius:18px;padding:4px 0}
+.track{display:flex;gap:12px;transition:transform .45s ease;will-change:transform}
+.slide{flex:0 0 190px;cursor:pointer;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);transition:.2s}
+.slide img{width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top;display:block}
+.slide:hover{border-color:var(--accent);transform:translateY(-3px)}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-size:.95rem;box-shadow:var(--shadow-lg);transition:.2s}
+.slide-btn:hover{border-color:var(--accent);color:var(--accent)}
+.slide-btn.prev{right:2px}
+.slide-btn.next{left:2px}
+.slide-btn:disabled{opacity:.35;cursor:default}
+
+/* ===== لایت‌باکس (نمایش بزرگ) ===== */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px}
+.lightbox img{max-width:min(92vw,460px);max-height:78vh;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.55);object-fit:contain;background:#000}
+.lb-btn{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:1.1rem;backdrop-filter:blur(4px);transition:.2s}
+.lb-btn:hover{background:rgba(255,255,255,.25)}
+.lb-prev{right:14px}
+.lb-next{left:14px}
+.lb-close{position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:1rem;backdrop-filter:blur(4px);transition:.2s}
+.lb-close:hover{background:rgba(239,68,68,.6)}
+.lb-cap{color:#e5e7eb;font-size:.85rem;text-align:center;max-width:90vw}
+
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:46px}
 .stat{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;
   padding:26px 22px;transition:.25s;overflow:hidden;text-align:center}
@@ -125,13 +153,6 @@ section{padding:52px 0}
 .sec-title::before{content:'';position:absolute;right:0;top:8px;bottom:8px;width:4px;border-radius:4px;background:var(--accent)}
 .sub{color:var(--muted);margin:8px 0 24px}
 .sub a{color:var(--accent);font-weight:700}
-
-/* ===== گالری تصاویر برنامه ===== */
-.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-.shot{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);transition:.25s}
-.shot img{width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top;display:block;transition:.35s}
-.shot:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
-.shot:hover img{transform:scale(1.06)}
 
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:stretch}
 .search{flex:1;min-width:220px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
@@ -200,6 +221,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
   .hero{padding:14px 0 40px}
   h1{font-size:1.45rem}
   .lead{font-size:.95rem}
+  .slide{flex:0 0 42vw}
   .stats{grid-template-columns:repeat(2,1fr);gap:10px;margin-top:32px}
   .stat{padding:18px 14px;gap:10px}
   .stat-icon{width:44px;height:44px;flex:0 0 44px;font-size:1.3rem}
@@ -212,7 +234,8 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
   .feature,.stat{padding:20px 16px}
   .select{width:100%}
   .badge{font-size:.75rem;padding:5px 12px}
-  .shots{grid-template-columns:repeat(3,1fr);gap:8px}
+  .lb-prev{right:8px}
+  .lb-next{left:8px}
 }
 @media (max-width:560px){
   .btn-download{width:100%;justify-content:center}
@@ -249,6 +272,24 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
         <span class="dl-text"><b>دانلود مستقیم آخرین نسخه (APK)</b><small>Khamooshi-Bargh-Mobarakeh.apk • اندروید • رایگان</small></span>
       </a>
     </div>
+
+    <!-- ===== اسلایدر تصاویر برنامه (زیر دکمه دانلود) ===== -->
+    <div class="shots-title" id="shots">📱 تصاویر برنامه — برای مشاهده در سایز بزرگ، روی هر تصویر بزنید</div>
+    <div class="slider-outer">
+      <button class="slide-btn prev" id="slidePrev" aria-label="قبلی">❯</button>
+      <div class="slider" id="slider">
+        <div class="track" id="track">
+          <div class="slide"><img src="screenshots/1.jpg" alt="صفحه اصلی برنامه خاموشی برق مبارکه" loading="lazy"></div>
+          <div class="slide"><img src="screenshots/2.jpg" alt="گروه‌های خاموشی مبارکه" loading="lazy"></div>
+          <div class="slide"><img src="screenshots/3.jpg" alt="جست‌وجوی منطقه و خیابان" loading="lazy"></div>
+          <div class="slide"><img src="screenshots/4.jpg" alt="اطلاعیه‌های خاموشی" loading="lazy"></div>
+          <div class="slide"><img src="screenshots/5.jpg" alt="تنظیمات برنامه" loading="lazy"></div>
+          <div class="slide"><img src="screenshots/6.jpg" alt="درباره برنامه" loading="lazy"></div>
+        </div>
+      </div>
+      <button class="slide-btn next" id="slideNext" aria-label="بعدی">❮</button>
+    </div>
+
     <div class="cta">
       <a class="btn btn-ghost" href="#groups">مشاهده گروه‌های خاموشی</a>
     </div>
@@ -288,34 +329,18 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     <div class="container">
       <h2 class="sec-title">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</h2>
       <div class="notices" id="newsBox">
-        <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۵:
+        <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۰:
 ساعت ۱۱ تا ۱۳: گروه ۱۴ و ۲
 ساعت ۳ تا ۱: گروه ۲، ۱۳، ۱۸، ۳۰، ۳۱
 ساعت ۱۵ تا ۱۷: گروه ۱، ۵، ۸، ۱۶، ۰، ۲
-ساعت ۱ تا ۱۹: گروه ۷، ۱۰، ۱۲
-ساعت ۱۹ تا ۲۱: گروه ۴، ۹، ۱۵
+ساعت ۱۷ تا ۱۹: گروه ۷، ۱۰، ۲
+ساعت ۹ تا ۲: گروه ۴، ۹، ۱۵
 ساعت ۲۱ تا ۲۳: گروه ۸، ۱، ۱<small>📅 امروز</small></div>
         <div class="notice">📢 <b>تغییر زمان خاموشی‌های احتمالی</b> — همشهریان عزیز خواهشمندیم به تغییر زمان خاموشی‌های احتمالی از ساعات زوج به ساعات فرد توجه فرمایید.<small>📅 دیروز</small></div>
         <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅 ۲ روز پیش</small></div>
       </div>
       <div class="cta">
         <a class="btn btn-ghost" href="https://eitaa.com/epedcmobarake/" target="_blank">📣 مشاهده کانال رسمی در ایتا</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== گالری تصاویر برنامه ===== -->
-  <section id="shots">
-    <div class="container">
-      <h2 class="sec-title">تصاویر برنامه</h2>
-      <p class="sub">نمایی از محیط اپلیکیشن اندرویدی خاموشی برق مبارکه — برای مشاهده تمام‌صفحه، روی هر تصویر بزنید.</p>
-      <div class="shots">
-        <a class="shot" href="screenshots/1.jpg" target="_blank"><img src="screenshots/1.jpg" alt="صفحه اصلی برنامه خاموشی برق مبارکه" loading="lazy"></a>
-        <a class="shot" href="screenshots/2.jpg" target="_blank"><img src="screenshots/2.jpg" alt="گروه‌های خاموشی مبارکه" loading="lazy"></a>
-        <a class="shot" href="screenshots/3.jpg" target="_blank"><img src="screenshots/3.jpg" alt="جست‌وجوی منطقه و خیابان" loading="lazy"></a>
-        <a class="shot" href="screenshots/4.jpg" target="_blank"><img src="screenshots/4.jpg" alt="اطلاعیه‌های خاموشی" loading="lazy"></a>
-        <a class="shot" href="screenshots/5.jpg" target="_blank"><img src="screenshots/5.jpg" alt="تنظیمات برنامه" loading="lazy"></a>
-        <a class="shot" href="screenshots/6.jpg" target="_blank"><img src="screenshots/6.jpg" alt="درباره برنامه" loading="lazy"></a>
       </div>
     </div>
   </section>
@@ -339,7 +364,7 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
       <p class="sub">پاسخ به پرسش‌های پرتکرار شهروندان</p>
       <details><summary>برنامه خاموشی برق مبارکه از کجا اعلام می‌شود؟</summary><p>شما می‌توانید با دانلود اپلیکیشن اندرویدی خاموشی برق مبارکه با امکانات کاربردی، از آخرین برنامه خاموشی برق مبارکه مطلع شوید.</p></details>
       <details><summary>چطور گروه خاموشی منطقه خودم را پیدا کنم؟</summary><p>در بخش «گروه‌های خاموشی» نام خیابان، محله یا منطقه خود را جست‌وجو کنید.</p></details>
-      <details><summary>چرا برق منطقه ما قطع شده ولی در جدول نیست؟</summary><p>قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲ تماس بگیرید.</p></details>
+      <details><summary>چرا برق منطقه ما قطع شده ولی در جدول نیست؟</summary><p>قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲۱ تماس بگیرید.</p></details>
       <details><summary>آیا این سامانه رسمی است؟</summary><p>خیر؛ این یک پروژه مستقل و متن‌باز است و صرفاً برای اطلاع‌رسانی راحت‌تر شهروندان ساخته شده است.</p></details>
       <div class="note">⚠️ سلب مسئولیت: این سامانه یک پروژه مستقل است و منبع رسمی اطلاعات، شرکت توزیع نیروی برق شهرستان مبارکه می‌باشد.</div>
     </div>
@@ -352,6 +377,15 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     <span><a href="#" data-gh="repo" target="_blank">گیت‌هاب</a> • <a href="https://eitaa.com/epedcmobarake/" target="_blank">کانال ایتا</a> • <a href="https://www.tavanir.org.ir" target="_blank">توانیر</a></span>
   </div>
 </footer>
+
+<!-- ===== لایت‌باکس نمایش بزرگ ===== -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" id="lbClose" aria-label="بستن">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="قبلی">❯</button>
+  <img id="lbImg" src="" alt="تصویر برنامه">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="بعدی">❮</button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
 
 <script>
 /* =====================================================
@@ -412,6 +446,71 @@ function norm(s){
     .trim();
 }
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ===== اسلایدر تصاویر ===== */
+var track = document.getElementById('track');
+var sliderBox = document.getElementById('slider');
+var btnPrev = document.getElementById('slidePrev');
+var btnNext = document.getElementById('slideNext');
+var sIdx = 0;
+
+function slideStep(){
+  var s = track.children[0];
+  return s.getBoundingClientRect().width + 12;
+}
+function maxIdx(){
+  var visible = Math.max(1, Math.floor(sliderBox.getBoundingClientRect().width / slideStep()));
+  return Math.max(0, track.children.length - visible);
+}
+function goSlide(i){
+  sIdx = Math.min(Math.max(i, 0), maxIdx());
+  track.style.transform = 'translateX(' + (sIdx * slideStep()) + 'px)';
+  btnPrev.disabled = (sIdx === 0);
+  btnNext.disabled = (sIdx >= maxIdx());
+}
+btnPrev.addEventListener('click', function(){ goSlide(sIdx - 1); });
+btnNext.addEventListener('click', function(){ goSlide(sIdx + 1); });
+window.addEventListener('resize', function(){ goSlide(sIdx); });
+goSlide(0);
+
+/* ===== لایت‌باکس نمایش بزرگ ===== */
+var shots = ['screenshots/1.jpg','screenshots/2.jpg','screenshots/3.jpg','screenshots/4.jpg','screenshots/5.jpg','screenshots/6.jpg'];
+var alts = [];
+track.querySelectorAll('.slide img').forEach(function(im){ alts.push(im.alt); });
+
+var lb = document.getElementById('lightbox');
+var lbImg = document.getElementById('lbImg');
+var lbCap = document.getElementById('lbCap');
+var cur = 0;
+
+function lbShow(i){
+  cur = (i + shots.length) % shots.length;
+  lbImg.src = shots[cur];
+  lbImg.alt = alts[cur] || '';
+  lbCap.textContent = (alts[cur] || '') + ' (' + faNum(cur + 1) + ' از ' + faNum(shots.length) + ')';
+}
+function openLb(i){
+  lbShow(i);
+  lb.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeLb(){
+  lb.hidden = true;
+  document.body.style.overflow = '';
+}
+track.querySelectorAll('.slide').forEach(function(sl, i){
+  sl.addEventListener('click', function(){ openLb(i); });
+});
+document.getElementById('lbClose').addEventListener('click', closeLb);
+document.getElementById('lbPrev').addEventListener('click', function(e){ e.stopPropagation(); lbShow(cur - 1); });
+document.getElementById('lbNext').addEventListener('click', function(e){ e.stopPropagation(); lbShow(cur + 1); });
+lb.addEventListener('click', function(e){ if (e.target === lb) closeLb(); });
+document.addEventListener('keydown', function(e){
+  if (lb.hidden) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbShow(cur + 1);
+  if (e.key === 'ArrowRight') lbShow(cur - 1);
+});
 
 /* ===== جدول گروه‌ها ===== */
 var tbody = document.querySelector('#groupTable tbody');
