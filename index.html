@@ -27,7 +27,7 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"برنامه خاموشی برق مبارکه از کجا اعلام می‌شود؟","acceptedAnswer":{"@type":"Answer","text":"شما می‌توانید با دانلود اپلیکیشن اندرویدی خاموشی برق مبارکه از آخرین برنامه خاموشی برق مبارکه مطلع شوید."}},
 {"@type":"Question","name":"چطور گروه خاموشی منطقه خودم را پیدا کنم؟","acceptedAnswer":{"@type":"Answer","text":"در بخش گروه‌های خاموشی، نام خیابان، محله یا منطقه خود را جست‌وجو کنید."}},
-{"@type":"Question","name":"چرا برق منطقه ما قطع شده ولی در جدول نیست؟","acceptedAnswer":{"@type":"Answer","text":"قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲۱ تماس بگیرید."}},
+{"@type":"Question","name":"چرا برق منطقه ما قطع شده ولی در جدول نیست؟","acceptedAnswer":{"@type":"Answer","text":"قطعی‌های ناگهانی و حوادث شبکه همیشه از قبل اعلام نمی‌شوند؛ با سامانه ۱۲ تماس بگیرید."}},
 {"@type":"Question","name":"آیا این سامانه رسمی است؟","acceptedAnswer":{"@type":"Answer","text":"خیر؛ این یک پروژه مستقل و متن‌باز است."}}
 ]}
 </script>
@@ -78,7 +78,6 @@ header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:va
 .badge{display:inline-flex;gap:8px;align-items:center;padding:6px 16px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--card);font-size:.85rem;margin-top:0}
 .dot{width:8px;height:8px;border-radius:50%;animation:blink 1.1s ease-in-out infinite}
 .dot.green{background:#22c55e;box-shadow:0 0 10px #22c55e}
-.dot.red{background:#ef4444;box-shadow:0 0 10px #ef4444}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 h1{font-size:clamp(1.6rem,4.5vw,2.7rem);font-weight:900;line-height:1.6;margin:18px auto 12px;text-align:center}
 h1 .hl{color:var(--accent)}
@@ -125,17 +124,6 @@ section{padding:52px 0}
 .sec-title::before{content:'';position:absolute;right:0;top:8px;bottom:8px;width:4px;border-radius:4px;background:var(--accent)}
 .sub{color:var(--muted);margin:8px 0 24px}
 .sub a{color:var(--accent);font-weight:700}
-.last-update{display:inline-flex;align-items:center;gap:8px;background:var(--chip-amber);color:var(--amber);padding:4px 12px;border-radius:999px;font-size:.78rem;font-weight:600;margin-top:8px}
-.last-update .upd-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:blink 1.1s infinite}
-
-/* ===== تب‌های اخبار + نمایش زنده ===== */
-.news-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.tab-btn{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:9px 18px;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;transition:.2s}
-.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
-.tab-btn.active{background:var(--chip-amber);border-color:var(--amber);color:var(--amber)}
-.live-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.live-wrap iframe{width:100%;height:640px;border:none;display:block;background:#fff}
-.live-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
 
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:stretch}
 .search{flex:1;min-width:220px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
@@ -159,7 +147,7 @@ tbody tr:hover{background:var(--hover)}
 td.cnt{color:var(--muted);font-size:.8rem;white-space:nowrap}
 .empty{padding:36px 20px;text-align:center;color:var(--muted)}
 
-.notices{display:grid;gap:14px}
+.notices{display:grid;gap:14px;margin-top:22px}
 .notice{background:var(--card);border:1px solid var(--line);border-right:4px solid var(--accent);border-radius:14px;padding:18px 22px;white-space:pre-line}
 .notice small{color:var(--muted);display:block;margin-top:8px;font-size:.78rem}
 
@@ -216,7 +204,6 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
   .feature,.stat{padding:20px 16px}
   .select{width:100%}
   .badge{font-size:.75rem;padding:5px 12px}
-  .live-wrap iframe{height:480px}
 }
 @media (max-width:560px){
   .btn-download{width:100%;justify-content:center}
@@ -242,7 +229,8 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
 
 <div class="hero">
   <div class="container">
-    <span class="badge"><span class="dot green" id="statusDot"></span> <span id="statusText">سامانه فعال است</span> • <span id="todayDate"></span></span>
+    <!-- همیشه فعال + دایره سبز چشمک‌زن + تاریخ روز مشاهده -->
+    <span class="badge"><span class="dot green"></span> سامانه فعال است • <span id="todayDate"></span></span>
     <h1>برنامه زمان‌بندی <span class="hl">خاموشی برق مبارکه</span></h1>
     <p class="lead">همین حالا اپلیکیشن اندرویدی «خاموشی برق مبارکه» را دانلود کنید و همیشه زودتر از همه از زمان‌بندی قطع برق و اطلاعیه‌های خاموشی منطقه خود باخبر شوید؛ رایگان، سبک و همیشه در دسترس! 📲</p>
 
@@ -287,38 +275,23 @@ footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-s
     </div>
   </section>
 
-  <!-- ===== اخبار: خلاصه + نمایش زنده با نت بازدیدکننده ===== -->
+  <!-- ===== اخبار ===== -->
   <section id="notices">
     <div class="container">
       <h2 class="sec-title">آخرین اخبار و اطلاعیه‌های برق شهرستان مبارکه</h2>
-      <p class="sub">اخبار مستقیم از <a href="https://eitaa.com/epedcmobarake/" target="_blank">کانال ایتا برق مبارکه</a> دریافت می‌شود.</p>
-
-      <div class="news-tabs">
-        <button class="tab-btn active" id="tabCards" type="button">📰 خلاصه اخبار</button>
-        <button class="tab-btn" id="tabLive" type="button">📡 نمایش زنده کانال</button>
-      </div>
-
-      <div class="last-update" id="lastUpdate"><span class="upd-dot"></span> آخرین به‌روزرسانی: <span id="lastUpdateTime">در حال بارگذاری…</span></div>
-      <div style="height:14px"></div>
-
       <div class="notices" id="newsBox">
-        <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۰۵:
-ساعت ۱۱ تا ۳: گروه ۱۴ و ۲۲
-ساعت ۱۳ تا ۱۵: گروه ۲، ۱۳، ۸، ۳، ۳۱
-ساعت ۱۵ تا ۱۷: گروه ۱، ۵، ۸، ۱۶، ۲۰، ۲۱
-ساعت ۱۷ تا ۱۹: گروه ۷، ۱۰، ۲
-ساعت ۹ تا ۲: گروه ۴، ۹، ۱۵
-ساعت ۲۱ تا ۲۳: گروه ۸، ۱۱، ۷<small>📅 امروز</small></div>
+        <div class="notice">🟡 <b>جدول محدودیت‌های بار احتمالی در شهرستان مبارکه</b> — دوشنبه ۱۹ مرداد ۱۴۵:
+ساعت ۱۱ تا ۱۳: گروه ۱۴ و ۲
+ساعت ۳ تا ۱: گروه ۲، ۱۳، ۱۸، ۳۰، ۳۱
+ساعت ۱۵ تا ۱۷: گروه ۱، ۵، ۸، ۱۶، ۰، ۲
+ساعت ۱ تا ۱۹: گروه ۷، ۱۰، ۱۲
+ساعت ۱۹ تا ۲۱: گروه ۴، ۹، ۱۵
+ساعت ۲۱ تا ۲۳: گروه ۸، ۱، ۱<small>📅 امروز</small></div>
         <div class="notice">📢 <b>تغییر زمان خاموشی‌های احتمالی</b> — همشهریان عزیز خواهشمندیم به تغییر زمان خاموشی‌های احتمالی از ساعات زوج به ساعات فرد توجه فرمایید.<small>📅 دیروز</small></div>
-        <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅  روز پیش</small></div>
+        <div class="notice">⚡ <b>صرفه‌جویی در ساعات اوج مصرف</b> — با کولر روی ۲۵ درجه و پرهیز از مصرف هم‌زمان وسایل پرمصرف، کنار شبکه برق بایستیم.<small>📅 ۲ روز پیش</small></div>
       </div>
-
-      <div class="live-wrap" id="liveWrap" hidden>
-        <iframe id="eitaaFrame" src="about:blank" title="کانال ایتا برق مبارکه — نمایش زنده" loading="lazy"></iframe>
-        <div class="live-bar">
-          <span>☝️ این بخش به‌صورت زنده و مستقیم با اینترنت خودِ شما از کانال ایتا بارگذاری می‌شود.</span>
-          <button class="tab-btn" id="frameReload" type="button">🔄 بارگذاری مجدد</button>
-        </div>
+      <div class="cta">
+        <a class="btn btn-ghost" href="https://eitaa.com/epedcmobarake/" target="_blank">📣 مشاهده کانال رسمی در ایتا</a>
       </div>
     </div>
   </section>
@@ -365,8 +338,6 @@ var GH_REPO = 'mobarakeh-outage';
 var APK_FILE = 'Khamooshi-Bargh-Mobarakeh.apk';
 var EITAA_CHANNEL = 'https://eitaa.com/epedcmobarake/';
 
-var OUTAGE_DATES = ['1405/05/19'];
-
 (function(){
   var base = 'https://github.com/' + GH_USER + '/' + GH_REPO;
   document.querySelectorAll('[data-gh="repo"]').forEach(function(a){ a.href = base; a.target = '_blank'; });
@@ -375,7 +346,7 @@ var OUTAGE_DATES = ['1405/05/19'];
   var og = document.getElementById('ogUrl'); if (og) og.content = 'https://' + GH_USER + '.github.io/' + GH_REPO + '/';
 })();
 
-/* ===== داده گروه‌ها ===== */
+/* ===== داده گروه‌های خاموشی (مطابق فایل رسمی) ===== */
 var GROUPS = [
  {g:1, a:'بلوار خلیج فارس ضلع جنوبی|بلوار معلم|میدان سردار شهید سلیمانی|خیابان سعادت|خیابان خرمشهر|خیابان ولیعصر|بلوار شریعتی|اداره آموزش و پرورش|شورای شهر|خیابان شهید رجایی|خیابان شهدا|خیابان امام خمینی شمالی|خیابان بسیج شمالی|خیابان سلمان|خیابان بهشتی|بلوار نیکبخت تا پل عابر پیاده|بلوار شهید یزدان|خیابان مشتاق|خیابان ۱۷ شهریور|انشعاب کشاورزی جنب پل رودخانه‌شور|بلوار ولایت|خیابان شهید کریمیان|درمانگاه سینا|خیابان شهدای جعفرزاده'},
  {g:2, a:'ضلع شمال بلوار شریعتی|بلوار ۱۵ خرداد|خیابان باهنر|خیابان شهید مصطفی خمینی|صفاییه محله ۷ و ۸|بلوار محتشم|بلوار الزهرا|سازمان تامین اجتماعی|دادگستری|تربیت بدنی و استخر ابوذر|مجموعه سایت اداری شهرستان|اداره آب|اداره برق|اداره ثبت احوال|اداره ثبت اسناد|اداره مسکن و شهرسازی|اداره کار و امور اجتماعی|کمیته امداد|فرمانداری|اداره کار|بنیاد مسکن|منابع طبیعی|بانک ملی شعبه خلیج فارس|چاه آب فلمن|خیابان آیت‌الله طالقانی|محله سرارود|اداره پست|کوی سجاد'},
@@ -417,20 +388,6 @@ function norm(s){
     .trim();
 }
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* ===== وضعیت سامانه ===== */
-var newsHasOutage = false;
-function todayShamsi(){
-  var parts = new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
-  var o = {};
-  parts.forEach(function(p){ o[p.type] = p.value; });
-  return norm(o.year + '/' + o.month + '/' + o.day);
-}
-function updateStatus(){
-  var active = OUTAGE_DATES.map(norm).indexOf(todayShamsi()) !== -1 || newsHasOutage;
-  document.getElementById('statusText').textContent = active ? 'سامانه فعال است' : 'سامانه غیرفعال است';
-  document.getElementById('statusDot').className = 'dot ' + (active ? 'green' : 'red');
-}
 
 /* ===== جدول گروه‌ها ===== */
 var tbody = document.querySelector('#groupTable tbody');
@@ -520,29 +477,6 @@ search.addEventListener('input', applyFilter);
 groupFilter.addEventListener('change', function(){ search.value=''; applyFilter(); });
 applyFilter();
 
-/* ===== تب‌های اخبار: خلاصه / نمایش زنده ===== */
-var tabCards = document.getElementById('tabCards');
-var tabLive = document.getElementById('tabLive');
-var newsBox = document.getElementById('newsBox');
-var liveWrap = document.getElementById('liveWrap');
-var frame = document.getElementById('eitaaFrame');
-var frameLoaded = false;
-
-function showLive(){
-  tabLive.classList.add('active'); tabCards.classList.remove('active');
-  newsBox.hidden = true; liveWrap.hidden = false;
-  if (!frameLoaded){ frame.src = EITAA_CHANNEL; frameLoaded = true; }
-}
-function showCards(){
-  tabCards.classList.add('active'); tabLive.classList.remove('active');
-  liveWrap.hidden = true; newsBox.hidden = false;
-}
-tabLive.addEventListener('click', showLive);
-tabCards.addEventListener('click', showCards);
-document.getElementById('frameReload').addEventListener('click', function(){
-  frame.src = EITAA_CHANNEL + '?r=' + Date.now();
-});
-
 /* ===== زمان نسبی خبر ===== */
 function relativeTime(dateStr){
   if (!dateStr) return '';
@@ -566,8 +500,8 @@ function relativeTime(dateStr){
   return '';
 }
 
-/* ===== دریافت اخبار (تلاش چندلایه) ===== */
-var lastUpdateEl = document.getElementById('lastUpdateTime');
+/* ===== تلاش خودکار برای دریافت اخبار (در پس‌زمینه) ===== */
+var newsBox = document.getElementById('newsBox');
 
 function parseEitaa(html){
   var doc = new DOMParser().parseFromString(html, 'text/html');
@@ -591,17 +525,11 @@ function renderNews(items){
     var icon = /خاموشی|قطعی|قطع برق|محدودیت/.test(t) ? '🟡' : /توصیه|صرفه|پویش/.test(t) ? '⚡' : '📢';
     return '<div class="notice">' + icon + ' <b>' + esc(t) + '</b><small>' + timeLabel + '</small></div>';
   }).join('');
-  newsHasOutage = items.some(function(i){ return /خاموشی|قطعی|قطع برق|محدودیت/.test(i.text); });
-  updateStatus();
   return true;
 }
 
-function updateLastTime(){
-  lastUpdateEl.textContent = new Intl.DateTimeFormat('fa-IR',{hour:'2-digit', minute:'2-digit', day:'numeric', month:'long'}).format(new Date());
-}
-
 function tryFetch(urls, idx){
-  if (idx >= urls.length){ updateLastTime(); return; }
+  if (idx >= urls.length) return;
   var ctrl = ('AbortController' in window) ? new AbortController() : null;
   var to = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 8000);
   fetch(urls[idx], ctrl ? {signal: ctrl.signal} : {})
@@ -609,7 +537,6 @@ function tryFetch(urls, idx){
     .then(function(text){
       clearTimeout(to);
       if (!renderNews(parseEitaa(text))) tryFetch(urls, idx + 1);
-      else updateLastTime();
     })
     .catch(function(){ clearTimeout(to); tryFetch(urls, idx + 1); });
 }
@@ -619,8 +546,7 @@ function loadNews(){
   tryFetch([
     base + '/feed',
     'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(EITAA_CHANNEL),
-    'https://api.allorigins.win/raw?url=' + encodeURIComponent(EITAA_CHANNEL),
-    EITAA_CHANNEL
+    'https://api.allorigins.win/raw?url=' + encodeURIComponent(EITAA_CHANNEL)
   ], 0);
 }
 loadNews();
@@ -629,7 +555,6 @@ setInterval(loadNews, 30 * 60 * 1000);
 /* ===== تاریخ، تم، شمارنده‌ها ===== */
 document.getElementById('todayDate').textContent =
   new Intl.DateTimeFormat('fa-IR',{weekday:'long', day:'numeric', month:'long', year:'numeric'}).format(new Date());
-updateStatus();
 
 var btn = document.getElementById('themeToggle');
 function setIcon(){ btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
